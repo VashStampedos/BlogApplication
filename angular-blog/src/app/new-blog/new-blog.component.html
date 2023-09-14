@@ -1,0 +1,16 @@
+<p>new-blog works!</p>
+<div class="d-flex flex-column align-items-center justify-content-center" >
+    <p>Create your Blog!!!</p>
+    <form class="form w-50" [formGroup]="blogForm" (submit)="addNewBlog()">
+        <div class="row m-3">
+            <label for="blogName">Blog name</label>
+            <input class="col form-field" name="blogName" formControlName="name" />
+            <select  formControlName="category" name="category?">
+                <option *ngFor="let category of categories"  value="{{category.id}}">{{category.name}}</option>
+            </select>
+        </div>
+        <div class="row m-3">
+            <button class="col btn btn-primary" [disabled]="!blogForm.valid" type="submit">Add new Blog</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,18 @@
+<div class="section" *ngIf="article">
+    <div class="comment-area">
+      
+      <button (click)="addNewLike()">
+        <div *ngIf="isLiked == false;else noLiked">
+            <img src="../../assets/images/heart.png" width="10px" height="10px">
+        </div>
+        <ng-template #noLiked>
+            <img src="../../assets/images/heartfill.png" width="10px" height="10px">
+        </ng-template>
+      </button>
+      <div>{{likes.length}}</div>
+    </div>
+    <div class="container">
+      
+    </div>
+    
+  </div>

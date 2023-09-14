@@ -1,0 +1,32 @@
+<div class="section">
+    <div class="blogs-header-wrap">
+      <div class="blogs-header">
+        <a routerLink="/addarticle">
+          <h2>Add new article</h2>
+        
+        </a>
+        <input class="searching" [(ngModel)]="nameBlog" (ngModelChange)="searching()" type="search">
+      </div>
+    </div>
+    <ul class="container" >
+      <li class="card" *ngFor="let blog of showBlog" >
+            <div class="card-header">
+              <div class="date">6 Oct 2017</div>
+              <img src="../../assets/images/samuro.jpg">
+            </div>
+            <div class="card-body" >
+              <span class="tag tag-teal">{{blog.category?.name}}</span>
+              <div class="user">
+                <div class="user-info">
+                  <a routerLink="/articles/{{blog.id}}">{{blog.name}}</a>
+                  <p>{{blog.id}},{{blog.user?.email}}</p>
+                  <div>Id User:{{blog.idUser}} </div>
+                </div>
+              </div>
+            </div>
+      </li>
+    </ul>
+    <!-- (click)="ShowArticleOfBlog(blog)" -->
+</div>
+
+

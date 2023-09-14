@@ -1,0 +1,23 @@
+
+<!-- <button type="button" (click)="goBack()">go back</button>-->
+
+<div class="section" *ngIf="blog">
+  <ul class="container" *ngFor="let article of blog.articles">
+    <li  class="card">
+      <button (click)="deleteArticle(article.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
+      <div class="card-header">
+        <div class="date">6 Oct 2017</div>
+        <img src="../../assets/images/samuro.jpg">
+      </div>
+      <div class="card-body">
+        <div class="user-info">
+          <h2 style="color: black;">{{article.title}}</h2>
+          <span>{{article.description}}</span>
+          <div>Id User:{{blog.idUser}} </div>
+        </div>
+      </div>
+
+    </li>
+    
+  </ul>
+</div>

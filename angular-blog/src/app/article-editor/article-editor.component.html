@@ -1,0 +1,60 @@
+
+<div class="section">
+    <p>Your Blogs!!!</p>
+    <ul class="container" *ngIf="blogs.length>0;else noblogs">
+        
+      <li class="card" *ngFor="let blog of blogs" >
+        <div class="card-header">
+              <div class="date">6 Oct 2017</div>
+              <img src="../../assets/images/samuro.jpg">
+        </div>
+        <div class="card-body" (click)="onClickBlog(blog)">
+            <span class="tag tag-teal">Technology</span>
+            <div class="user">
+              <div class="user-info">
+               <h2 style="color: black;">{{blog.name}}</h2>
+                <div>User: {{blog.user?.email}} </div>
+              </div>
+            </div>
+        </div>
+         <!-- <button (click)="onClickBlog(blog)">
+          {{blog.id}},{{blog.name}},{{blog.idUser}},{{blog.user?.email}}
+         </button> -->
+      </li>
+      
+    </ul>
+    <ng-template #noblogs>
+        <a routerLink="/newblog">
+            <!-- new blog -->
+            You dont have any blogs? Lets create one!!!
+        </a>
+    </ng-template>
+    <!-- (click)="ShowArticleOfBlog(blog)" -->
+</div>
+
+
+<div class="d-flex flex-column align-items-center justify-content-center" *ngIf="blogs.length>0">
+    <p>Add your article!!!</p>
+    <div>Create new article</div>
+    <div *ngIf="blog">
+        <p>Article for your {{blog.name}} blog</p>
+        <form class="form w-50" [formGroup]="articleForm" (submit)="addNewArticle()">
+            <div class="row m-3">
+                <label for="title">Title*</label>
+                <input class="col form-field" name="title" formControlName="title" />
+            </div>
+            <div class="row m-3">
+                <label for="description">Description*</label>
+                <textarea class="col form-field" name="description" formControlName="description">Write yor text here</textarea>
+            </div>
+            <div class="row m-3">
+                <label for="photo">Photo*</label>
+                <input class="col form-field"  name="photo" formControlName="photo" />
+            </div>
+            <div class="row m-3">
+                <button class="col btn btn-primary" [disabled]="!articleForm.valid" type="submit">Add new Article</button>
+            </div>
+        </form>
+    </div>
+    
+</div>

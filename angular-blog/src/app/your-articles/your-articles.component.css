@@ -1,0 +1,177 @@
+/* .rounded {
+    counter-reset: li; 
+    list-style: none; 
+    font: 14px "Trebuchet MS", "Lucida Sans";
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    }
+    .rounded li {
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    margin: .5em 0;
+    background: #DAD2CA;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: .3s ease-out;
+    }
+    .rounded li:hover {background: #E9E4E0;}
+    .rounded li:hover:before {transform: rotate(360deg);}
+    .rounded li:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #8FD4C1;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid white;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+    }
+
+
+     */
+
+     @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+     * {
+       box-sizing: border-box;
+     }
+     body {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       margin: 0;
+       background-color: #f7f8fc;
+       font-family: "Roboto", sans-serif;
+       color: #10182f;
+     }
+     .section{
+      display: flex;
+      align-items: center;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+     }
+     .container {
+       display: flex;
+       width: 1040px;
+       justify-content: space-evenly;
+       align-items: center;
+       align-content: center;
+       flex-wrap: wrap;
+     }
+     .card {
+       margin: 10px;
+       background-color: #fff;
+       border-radius: 10px;
+       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+       overflow: hidden;
+       width: 800px;
+     }
+     .card-header img {
+       width: 100%;
+       height: 200px;
+       object-fit: cover;
+     }
+     .card-body {
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: flex-start;
+       padding: 20px;
+       min-height: 250px;
+     }
+     
+     .tag {
+       background: #cccccc;
+       border-radius: 50px;
+       font-size: 12px;
+       margin: 0;
+       color: #fff;
+       padding: 2px 10px;
+       text-transform: uppercase;
+       cursor: pointer;
+     }
+     .tag-teal {
+       background-color: #47bcd4;
+     }
+     .tag-purple {
+       background-color: #5e76bf;
+     }
+     .tag-pink {
+       background-color: #cd5b9f;
+     }
+     
+     .card-body p {
+       font-size: 13px;
+       margin: 0 0 40px;
+     }
+     .user {
+       display: flex;
+       margin-top: auto;
+     }
+     
+     .user img {
+       border-radius: 50%;
+       width: 40px;
+       height: 40px;
+       margin-right: 10px;
+     }
+     .user-info h5 {
+       margin: 0;
+     }
+     .user-info small {
+       color: #545d7a;
+     }
+     .date{
+      position: absolute;
+      margin-left: 10px;
+      margin-top: 5px;
+    }
+    .blogs-header{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+
+    a {
+      color: #000;
+      position: relative;
+      text-decoration: none;
+    }
+    
+    a::before {
+      background: hsl(45 100% 70%);
+      content: "";
+      inset: 0;
+      position: absolute;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.5s ease-in-out;
+      z-index: -1;
+    }
+    
+    a:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    /* Presentational styles */
+    body {
+      display: grid;
+      font-family: system-ui, sans;
+      font-size: 3.5rem;
+      font-weight: 800;
+      height: 100vh;
+      place-items: center;
+    } 
+     

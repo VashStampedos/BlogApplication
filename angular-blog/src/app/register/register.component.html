@@ -1,0 +1,47 @@
+<div class="section">
+    <div class="container">
+        <div class="row full-height justify-content-center">
+            <div class="col-12 text-center align-self-center py-5">
+                <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                    <h1 class="mb-4 pb-3">Register</h1>
+                    <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="center-wrap">
+                                    <form class="section text-center" style="height: 100%;" *ngIf="!responseString" [formGroup]="loginForm" (submit)="register($event)">
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <input class="form-style" placeholder="Username" name="username" formControlName="username" />
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="email" class="form-style" placeholder="Email" name="email" formControlName="email" />
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input class="form-style" placeholder="Password" type="password" name="password" formControlName="password" autocomplete="on" />
+                                            </div>
+                                            <div class="form-group mt-2" *ngIf="authFailed">
+                                                <h4 class="mb-4 pb-3">Invalid credentials</h4>
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                                <button class="btn mt-4" [disabled]="!loginForm.valid" type="submit">Register</button>
+                                        </div>
+                                        
+                                        
+                                    </form>
+                                    <div *ngIf="responseString" class="section text-center" style="height: 100%;">
+                                        <div class="form-wrap">
+                                            <span class="form-group">
+                                                {{responseString}}
+                                            </span>
+                                        </div>
+                                    </div>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="section">
+  <div class="blogs-header-wrap">
+    <div class="blogs-header">
+      
+        <a routerLink="/newblog">
+          Add new blog
+          </a>
+          <a routerLink="/addarticle">
+            Add new article
+            </a>
+      
+    </div>
+  </div>
+</div>
+
+<div>
+    <ul class="container" >
+      <li class="card" *ngFor="let blog of blogs" >
+        <button (click)="deleteBlog(blog.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
+        <div class="card-header">
+          <div class="date">6 Oct 2017</div>
+          <img src="../../assets/images/samuro.jpg">
+        </div>
+        <div class="card-body" >
+          <span class="tag tag-teal">{{blog.category?.name}}</span>
+          <div class="user">
+            <div class="user-info">
+              <a routerLink="yourarticles/{{blog.id}}">{{blog.name}}</a>
+              <p>{{blog.id}},{{blog.user?.email}}</p>
+              <div>Id User:{{blog.idUser}} </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+</div>
+
+<!-- <div class="section">
+  <div class="blogs-header-wrap">
+    <div class="blogs-header">
+      <a routerLink="/addarticle">
+        <h2>Add new article</h2>
+      
+      </a>
+      <input class="searching" type="search">
+    </div>
+  </div>
+  <ul class="container" >
+    <li class="card" *ngFor="let blog of blogs" >
+          <div class="card-header">
+            <div class="date">6 Oct 2017</div>
+            <img src="../../assets/images/samuro.jpg">
+          </div>
+          <div class="card-body" >
+            <span class="tag tag-teal">Technology</span>
+            <div class="user">
+              <div class="user-info">
+                <a routerLink="/articles/{{blog.id}}">{{blog.name}}</a>
+                <p>{{blog.id}},{{blog.user?.email}}</p>
+                <div>Id User:{{blog.idUser}} </div>
+              </div>
+            </div>
+          </div>
+    </li>
+  </ul>
+ 
+</div> -->

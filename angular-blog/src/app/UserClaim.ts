@@ -1,4 +1,5 @@
 import { Like } from "./models/like";
+import { User } from "./models/user";
 
 export interface UserClaim{
     type: string;
@@ -12,5 +13,10 @@ export interface Response{
 export interface LikeResponse{
     likesModel:Like[];
     isLiked:boolean;
+    
+}
+export interface UserResponse{
+    userModel:User;
+    isSubscribe:boolean;
     
 }

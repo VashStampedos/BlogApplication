@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { BlogService } from '../blog.service';
+import { Blog } from '../models/blog';
+import { Category } from '../models/category';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +9,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  nameBlog= "";
+  blogs:Blog[]=[];
+  selectedBlog?:Blog;
+  
+  constructor(private blogService:BlogService) {
+    
+  }
+  
+  ngOnInit(){
+    
+    this.blogService.getBlogs().subscribe(x=> {this.blogs=x;});
+    
+  }
+  
+  
 
+
+  ShowArticleOfBlog(blog:Blog){
+    this.selectedBlog = blog;
+  }
 }

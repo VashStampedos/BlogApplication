@@ -42,7 +42,8 @@ export class AuthComponent implements OnInit {
     this.authService.logIn(email,password).subscribe(
       {
         next:(response:any)=>{
-          console.log(response)
+          console.log(response);
+          window.document.location.reload();
         },
         error:(err:any)=>{
           if(!err?.error?.isSuccess){

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QDNaw3tbzB8mT92ek976S60rPdwUuXo97h0wJXvbpASsFZiyqPUOnQqzxMpPZkcpRUuLT3sv5CoWeJVhkbeIbg==",
+  "dgSpecHash": "f+z9PVTBWuretnLKysUEd0EMTlKVlqPlbJKN4wJQ00ySOOy8H8CR+rU964bmF4/1lBoB0YJMGjvFuCld22J3ZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
+  "projectFilePath": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vlad-\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj": {}
+    "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj": {
+    "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
         "projectName": "BlogWebAPI",
-        "projectPath": "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
+        "projectPath": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
         "packagesPath": "C:\\Users\\vlad-\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vlad-\\source\\repos\\BlogWebAPI\\BlogWebAPI\\obj\\",
+        "outputPath": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vlad-\\AppData\\Roaming\\NuGet\\NuGet.Config",

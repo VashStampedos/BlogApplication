@@ -20,7 +20,7 @@ ngOnInit(){
 public signout() {
     
     console.log('doc cok ' + document.cookie);
-    this.authService.logOut().subscribe(x=> {window.localStorage.clear();} );
+    this.authService.logOut().subscribe(x=> {window.localStorage.clear(); window.document.location.reload();} );
     this.router.navigateByUrl("/blogs");
     //document.location.reload();
     //document.location.replace("/blogs");

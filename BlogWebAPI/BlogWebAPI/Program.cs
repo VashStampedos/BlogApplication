@@ -41,6 +41,7 @@ builder.Services.ConfigureApplicationCookie(config =>
     
     
 });
+
 builder.Services.AddCors(options => options.AddPolicy("BlogApi", policy => 
 {
     policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
@@ -54,7 +55,7 @@ var app = builder.Build();
 app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("BlogApi");
-
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 

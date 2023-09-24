@@ -19,34 +19,15 @@ namespace BlogWebAPI.Controllers
         BlogApplicationContext _db;
         UserManager<User> _userManager;
         IMapper mapper;
-        
-        public BlogController(BlogApplicationContext context, UserManager<User> userManager,IMapper _mapper)
+        IWebHostEnvironment _env;
+        public BlogController(BlogApplicationContext context, UserManager<User> userManager,IMapper _mapper, IWebHostEnvironment environment)
         {
             _db = context;
             _userManager = userManager;
             mapper = _mapper;
+            _env = environment;
         }
         
-        //[HttpGet]
-        //public IActionResult Users()
-        //{
-        //    //System.ArgumentNullException: Value cannot be null. (Parameter 'providedPassword')
-        //    //at Microsoft.AspNetCore.Identity.PasswordHasher`1.VerifyHashedPassword(TUser user, String hashedPassword, String providedPassword)
-        //    if (!User.Identity.IsAuthenticated)
-        //    {
-        //        return StatusCode(401);
-        //    }
-        //    var users = _db.Users.Include(x => x.Subscribes).ToList();
-        //    List<UserModel> userModels = new List<UserModel>();
-        //    foreach (var user in users)
-        //    {
-        //        var userModel = mapper.Map<UserModel>(user);
-        //        userModels.Add(userModel);
-        //    }
-        //    return Json(userModels);
-        //}
-
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Blogs()
@@ -61,15 +42,22 @@ namespace BlogWebAPI.Controllers
             return  Json(blogModels);
         }
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Categories()
+        public async Task<IActionResult> GetUserBlogs(int id)
         {
-            var categories = await _db.Categories.ToListAsync();
-            var categoryModels = mapper.Map<List<CategoryModel>>(categories);
-            return Json(categoryModels);
+           
+            if (id > 0)
+            {
+                var blogs = await _db.Blogs.Include(x => x.User).Include(x => x.Category).Include(x => x.Articles).Where(x => x.IdUser == id).ToListAsync();
+                if (blogs != null)
+                {
+                    List<BlogModel> blogModels = mapper.Map<List<BlogModel>>(blogs);
+                    return Ok(blogModels);
+                }
+            }
+            return BadRequest();
         }
         [HttpGet]
-        public async Task<IActionResult> GetUserBlogs()
+        public async Task<IActionResult> GetCurrentUserBlogs()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
@@ -82,6 +70,14 @@ namespace BlogWebAPI.Controllers
                 }
             }
             return BadRequest();
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Categories()
+        {
+            var categories = await _db.Categories.ToListAsync();
+            var categoryModels = mapper.Map<List<CategoryModel>>(categories);
+            return Json(categoryModels);
         }
 
         public record NewBlogRequest(string Name, int idCategory);
@@ -145,26 +141,43 @@ namespace BlogWebAPI.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Articles()
+        public async Task<IActionResult> Articles()
         {
-            var articles = _db.Articles.Include(x => x.Blog).ToList();
-            List<ArticleModel> articleModels = new List<ArticleModel>();
-            foreach (var article in articles)
+            var articles = await _db.Articles.Include(x => x.Blog).ToListAsync();
+            if (articles != null){
+                
+                var articleModels = mapper.Map<List<ArticleModel>>(articles);
+                return Json(articleModels);
+            }
+            return BadRequest("Something went wrong");
+           
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetArticle(int id)
+        {
+            var article = await _db.Articles.Include(x => x.Blog).ThenInclude(x=> x.User).FirstOrDefaultAsync(x=> x.Id==id);
+            if (article != null)
             {
                 var articleModel = mapper.Map<ArticleModel>(article);
-                articleModels.Add(articleModel);
+               
+
+                return Json(articleModel);
+
             }
-            return Json(articleModels);
+           
+           return BadRequest("Article not found");
         }
-        
-        public record NewArticleRequest(string Title, string Description, string? Photo, int IdBlog);
+
+        public record NewArticleRequest(string Title, string Description, IFormFile? Photo, int IdBlog);
         [HttpPost]
-        public async Task<IActionResult> AddNewArticle([FromBody] NewArticleRequest newArticleRequest)
+        public async Task<IActionResult> AddNewArticle([FromForm] NewArticleRequest formData)
+        //public async Task<IActionResult> AddNewArticle([FromForm] string title, [FromForm] string description, [FromForm] IFormFile photo, [FromForm] int idBlog )
         {
-            var title = newArticleRequest.Title;
-            var description = newArticleRequest.Description;
-            var photo = newArticleRequest.Photo;
-            var idBlog = newArticleRequest.IdBlog;
+            var title = formData.Title;
+            var description = formData.Description;
+            var photo = formData.Photo;
+            var idBlog = formData.IdBlog;
             var user = await _userManager.GetUserAsync(User);
             if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(description) || idBlog == 0)
             {
@@ -178,13 +191,17 @@ namespace BlogWebAPI.Controllers
                     var result = await _db.Articles.FirstOrDefaultAsync(x => x.Title == title && x.Description == description && x.IdBlog == idBlog);
                     if(result == null)
                     {
-                        var newArticle = new Article()
+                        using (var fs = new FileStream(_env.WebRootPath + "/images/" + photo.FileName, FileMode.Create))
                         {
-                            Title = title,
-                            Description = description,
-                            Photo = photo,
-                            IdBlog = idBlog
-                        };
+                            await photo.CopyToAsync(fs);
+                        }
+                            var newArticle = new Article()
+                            {
+                                Title = title,
+                                Description = description,
+                                Photo = ("/images/" + photo.FileName),
+                                IdBlog = idBlog
+                            };
 
                         await _db.Articles.AddAsync(newArticle);
                         await _db.SaveChangesAsync();

@@ -8,24 +8,28 @@ import { Comment } from './models/comment';
 import { Like } from './models/like';
 import { LikeResponse } from './UserClaim';
 import { Category } from './models/category';
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogService {
 
-  constructor(private http:HttpClient, private authService: AuthService) {
-    //this.authService.isSignedIn().subscribe(isSignedIn => {this.signedIn = isSignedIn})
+  constructor(private http:HttpClient) {
+    
   }
-
-  getCategories(){
+  
+  getCategories():Observable<Category[]>{
     return this.http.get<Category[]>("https://localhost:7018/Blog/Categories");
   }
   getBlogs():Observable<Blog[]>{
     return this.http.get<Blog[]>("https://localhost:7018/Blog/Blogs");
   }
-  getUserBlogs():Observable<Blog[]>{
-    return this.http.get<Blog[]>("https://localhost:7018/Blog/GetUserBlogs");
+  getCurrentUserBlogs():Observable<Blog[]>{
+    return this.http.get<Blog[]>("https://localhost:7018/Blog/GetCurrentUserBlogs");
+  }
+  getUserBlogs(id:number):Observable<Blog[]>{
+    return this.http.get<Blog[]>(`https://localhost:7018/Blog/GetUserBlogs?id=${id}`);
   }
   getBlog(id:number):Observable<Blog>{
     
@@ -57,9 +61,22 @@ export class BlogService {
   getArticles():Observable<Article[]>{
     return this.http.get<Article[]>("https://localhost:7018/Blog/Articles");
   }
-  addArticle(title:string, description:string, photo:string = "none", idblog:number){
+  getArticle(id:number):Observable<Article>{
+    return this.http.get<Article>(`https://localhost:7018/Blog/GetArticle?id=${id}`);
+  }
+  addArticle(title:string, description:string, photo:File, idblog:number){
+    
+    const formData = new FormData();
+    
+    formData.append('title', title)
+    formData.append("description", description)
+    formData.append("photo", photo)
+    formData.append("idblog", ""+idblog)
+    formData.forEach(x=> console.log(x.valueOf()))
+    // console.log("formData")
+    // console.log(formData)
     return this.http.post
-    ("https://localhost:7018/Blog/AddNewArticle",{title:title,description:description,photo:photo,idblog:idblog})
+    ("https://localhost:7018/Blog/AddNewArticle",formData)
   }
   deleteArticle(id:number){
     console.log("del from service id "+ id)

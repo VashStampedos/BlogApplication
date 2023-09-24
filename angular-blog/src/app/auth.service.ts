@@ -28,10 +28,7 @@ export class AuthService {
   public logOut(){
     return this.http.get('https://localhost:7018/Account/logout', {withCredentials:true})
   }
-
-  public getCurrentUser():Observable<User>{
-    return this.http.get<User>('https://localhost:7018/Account/GetCurrentUser')
-  }
+  
   public user() {
     console.log("cookie is " + document.cookie)
     

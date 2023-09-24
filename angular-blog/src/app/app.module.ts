@@ -23,6 +23,9 @@ import { YourArticlesComponent } from './your-articles/your-articles.component';
 import { RegisterComponent } from './register/register.component';
 import { LikeComponent } from './like/like.component';
 import { ArticleDetailsComponent } from './article-details/article-details.component';
+import { ProfileComponent } from './profile/profile.component';
+import { PhotoComponent } from './photo/photo.component';
+import { SubscribersComponent } from './subscribers/subscribers.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,9 @@ import { ArticleDetailsComponent } from './article-details/article-details.compo
     RegisterComponent,
     LikeComponent,
     ArticleDetailsComponent,
+    ProfileComponent,
+    PhotoComponent,
+    SubscribersComponent,
     
   ],
   imports: [

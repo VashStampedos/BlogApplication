@@ -1,0 +1,15 @@
+
+<div class="section">
+    <div class="container" *ngIf="currentUser">
+        <div class="user">
+            <img src="../../assets/images/user.png">
+            <div class="user-header">
+                <h2>{{currentUser.userName}}</h2>
+            </div>
+            <div>
+                <span>Subscribers: {{currentUser.subscribes?.length}}</span>
+                <app-your-blogs></app-your-blogs>
+            </div>
+        </div>
+    </div>
+</div>

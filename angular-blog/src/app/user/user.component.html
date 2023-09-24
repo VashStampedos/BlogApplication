@@ -1,1 +1,45 @@
-<p>user works!</p>
+
+    <div class="section">
+        <div class="container" *ngIf="user">
+            <div class="user">
+                <div class="user-header">
+                    <div class="user-info">
+                        <img src="../../assets/images/user.png">
+                        <div style="display: flex; align-items: center;">
+                            <div class="user-info-name">
+                                
+                                <p>{{user.userName}}</p>
+                                <span>Subscribers: {{user.subscribes?.length}}</span>
+                                <div *ngIf="isSubscribe == false;else unsunscribe">
+                                    <button class="bn11" (click)="subscribe()">Subscribe</button>
+                                </div>
+                            </div>
+                            <ng-template #unsunscribe>
+                                <button class="bn11" (click)="unSubscribe()">Unsubscribe</button>
+                            </ng-template>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="switcher-wrap">
+                <div class="switcher">
+                    <a id="1" (click)="switch($event)" class="bn34">Blogs</a>
+                    <a id="2" (click)="switch($event)" class="bn34">Subscribers</a>
+                    <a id="3" (click)="switch($event)" class="bn34">Subscribers</a>
+                    <a id="4" (click)="switch($event)" class="bn34">Subscribers</a>
+                </div>
+            </div>
+        </div>
+        <div [ngSwitch]="state">
+            <div *ngSwitchCase="1">
+                <app-blog  [blogs]="userBlogs" [showBlog]="userBlogs" ></app-blog>
+            </div>
+            <div  *ngSwitchCase="2">
+                <app-subscribers  [subscribers]="user?.subscribes" [showSubscribers]="user?.subscribes" [user]="user"></app-subscribers>
+            </div>
+           
+            
+        </div>
+    </div>
+

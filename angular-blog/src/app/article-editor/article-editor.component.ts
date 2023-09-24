@@ -16,12 +16,14 @@ export class ArticleEditorComponent {
   user!:User;
   blogs:Blog[] = [];
   blog?:Blog;
+  photo?:File;
+  
     constructor(private blogService:BlogService, private route:ActivatedRoute,  private location: Location, private formBuilder:FormBuilder){
 
     }
 
     ngOnInit(){
-        this.blogService.getUserBlogs().subscribe(x=>{
+        this.blogService.getCurrentUserBlogs().subscribe(x=>{
           this.blogs= x
         } )
 
@@ -44,15 +46,23 @@ export class ArticleEditorComponent {
       }
       const title = this.articleForm.get('title')?.value;
       const description = this.articleForm.get('description')?.value;
-      const photo = this.articleForm.get('photo')?.value;
+      //const photo = this.articleForm.get('photo')?.value;
       const idBlog = this.blog?.id!;
-      console.log("new art" + title,description,photo,idBlog)
-      this.blogService.addArticle(title, description, "asd", idBlog).subscribe(
+      
+      console.log("new art" + title,description,this.photo,idBlog)
+      this.blogService.addArticle(title, description, this.photo!, idBlog).subscribe(
         error=>{
             console.log(error)
         }
       );
       this.goBack();
+    }
+
+    onFileSelected(event:any){
+      if(event.target.files.length>0){
+        this.photo = event.target.files[0];
+        console.log(event.target.files[0])
+      }
     }
 
     onClickBlog(blog:Blog){

@@ -17,8 +17,18 @@ body{
 	font-size: 15px;
 	line-height: 1.7;
 	color: #c4c3ca;
+	padding: 0;
+	margin: 0;
+	
 	background-color: #1f2029;
 	overflow-x: hidden;
+}
+.main-image{
+	width: 100%;
+	height: 1080px;
+	position: fixed;
+	z-index: -1;
+	background-color: black;
 }
 a {
 	color: #ffffff;
@@ -42,4 +52,151 @@ a {
 	transform-origin: left;
   }
 
+  
+     /* @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+     * {
+       box-sizing: border-box;
+     }
+     body {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       margin: 0;
+       background-color: #f7f8fc;
+       font-family: "Roboto", sans-serif;
+       color: #10182f;
+     }
+     .section{
+      display: flex;
+      align-items: center;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+     }
+     .container {
+       display: flex;
+       width: 1040px;
+       justify-content: space-evenly;
+       flex-wrap: wrap;
+     }
+     .card {
+       margin: 10px;
+       background-color: #fff;
+       border-radius: 10px;
+       box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+       overflow: hidden;
+       width: 300px;
+     }
+     .card-header img {
+       width: 100%;
+       height: 200px;
+       object-fit: cover;
+     }
+     .card-body {
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: flex-start;
+       padding: 20px;
+       min-height: 250px;
+     }
+     
+     .tag {
+       background: #cccccc;
+       border-radius: 50px;
+       font-size: 12px;
+       margin: 0;
+       color: #fff;
+       padding: 2px 10px;
+       text-transform: uppercase;
+       cursor: pointer;
+     }
+     .tag-teal {
+       background-color: #47bcd4;
+     }
+     .tag-purple {
+       background-color: #5e76bf;
+     }
+     .tag-pink {
+       background-color: #cd5b9f;
+     }
+     
+     .card-body p {
+       font-size: 13px;
+       margin: 0 0 40px;
+     }
+     .user {
+       display: flex;
+       margin-top: auto;
+     }
+     
+     .user img {
+       border-radius: 50%;
+       width: 40px;
+       height: 40px;
+       margin-right: 10px;
+     }
+     .user-info h5 {
+       margin: 0;
+     }
+     .user-info small {
+       color: #545d7a;
+     }
+     .date{
+      position: absolute;
+      margin-left: 10px;
+      margin-top: 5px;
+    }
+    .blogs-header-wrap{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+    .blogs-header{
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+
+    }
+    .searching{
+      width: 300px;
+      border-radius: 5px;
+    }
+    a {
+      color: #000;
+      position: relative;
+      text-decoration: none;
+    }
+    
+    a::before {
+      background: hsl(45 100% 70%);
+      content: "";
+      inset: 0;
+      position: absolute;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.5s ease-in-out;
+      z-index: -1;
+    }
+    
+    a:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    
+    /* Presentational styles 
+    body {
+      display: grid;
+      font-family: system-ui, sans;
+      font-size: 3.5rem;
+      font-weight: 800;
+      height: 100vh;
+      place-items: center;
+    }  */
+     
 

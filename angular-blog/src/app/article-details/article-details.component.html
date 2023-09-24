@@ -1,21 +1,31 @@
-<!-- <button type="button" (click)="goBack()">go back</button>
-<div class="section" *ngIf="blog">
-    <ul class="container" *ngFor="let article of blog.articles">
-      <li  class="card">
+<button type="button" (click)="goBack()">go back</button>
+<div class="section">
+    <div class="container">
+      <div  class="card" *ngIf="article">
         <div class="card-header">
-          <div class="date">6 Oct 2017</div>
-          <img src="../../assets/images/samuro.jpg">
+          <app-photo [userImage]="article.photo"></app-photo>
         </div>
         <div class="card-body">
+          <h1>{{article.title}}</h1>
           <div class="user-info">
-            <h3>{{article.title}}</h3>
-            <span>{{article.description}}</span>
-            <div>Id User:{{blog.idUser}} </div>
+            <span class="description">
+              {{article.description}}
+            </span>
+            <div class="date">
+              <p>6 Oct 2017</p>
+              <app-like [article]="article"></app-like>
+            </div>
+            
+            <div class="info">
+              <img src="../../assets/images/user.png">
+              <a routerLink="/user/{{article.blog!.idUser}}">{{article.blog!.user?.userName}} </a>
+            </div>
           </div>
         </div>
-        <app-comment [article]="article" [id]="article.id">Comments</app-comment>
-        <app-like [article]="article"></app-like>
-      </li>
+        <div>
+          <app-comment [article]="article" [id]="article.id"></app-comment>
+        </div>
+      </div>
       
-    </ul>
-</div> -->
+    </div>
+</div>

@@ -30,14 +30,15 @@ namespace BlogWebAPI.Entities
             {
                 entity.ToTable("Users");
                 entity.Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
+                //entity.Property(x => x.Photo);
                
                 //    //entity.Property(x => x.Email).IsRequired();
                 //    //entity.Property(x => x.Password).IsRequired();
 
                 entity.HasData(
-                    new User { Id = 1, Email = "jin-gennadevich@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" },
-                    new User { Id = 2, Email = "sema-chuma@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" },
-                    new User { Id = 3, Email = "max-shket@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" }
+                    new User { Id = 1, UserName = "Max", Email = "jin-gennadevich@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" },
+                    new User { Id = 2, UserName = "Jin", Email = "sema-chuma@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" },
+                    new User { Id = 3, UserName = "Max", Email = "max-shket@mail.ru", PasswordHash = "AQAAAAIAAYagAAAAEEI03B8VDY91eT1smNi+Kdo+oeOmZeS3SHYisTX3aUw4/kgaRWtBAzL+SHIWzRI+Gg==" }
 
 
                     ) ;

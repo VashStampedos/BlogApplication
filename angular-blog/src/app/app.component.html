@@ -1,15 +1,18 @@
+<div class="transp">
 
-<nav class="section">
+</div>
+<div class="section">
   <div class="menu-wrap">
     <div class="menu">
       <div class="if-block" *ngIf="!isSignedIn">
         <a routerLink="/register">Register</a>
+        <a routerLink="/login">Login</a>
       </div>
-      <div>
-        <a routerLink="/blogs">Blogs</a>
+      <div class="if-block">
+        <a routerLink="/home">Home</a>
       </div>
       <div class="if-block" *ngIf="isSignedIn">
-        <a routerLink="/yourblogs">Your blogs</a>
+        <a routerLink="/profile">Profile</a>
         <a routerLink="/logout">LogOut</a>
       </div>
     </div>
@@ -17,8 +20,8 @@
   </div>
   <div class="content">
     <router-outlet></router-outlet>
-
+  
   </div>
-</nav>
+</div>
 
 

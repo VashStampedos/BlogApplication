@@ -88,6 +88,7 @@ namespace BlogWebAPI.Controllers
 
       
         [AllowAnonymous]
+        //
         [HttpPost]
         //рефакторить
         public async Task<IActionResult> Login([FromBody] SignInRequest request)
@@ -122,20 +123,7 @@ namespace BlogWebAPI.Controllers
             await _signInManager.SignOutAsync();
             return Ok();
         }
-        [HttpGet]
-        public async Task<IActionResult> GetCurrentUser()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null) 
-                {
-                    var mappedUser = mapper.Map<UserModel>(user);
-                    return Ok(mappedUser);
-                }
-            }
-            return BadRequest();
-        }
+        
 
         [HttpGet]
         [AllowAnonymous]

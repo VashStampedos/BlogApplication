@@ -5,6 +5,7 @@ import { Blog } from "./blog";
 
 export class User{
     id?:number; 
+    userName?:string
     email?:string
     passwordHash?:string
     blogs?:Blog[]; 

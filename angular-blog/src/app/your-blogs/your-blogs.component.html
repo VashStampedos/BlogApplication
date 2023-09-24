@@ -13,56 +13,44 @@
   </div>
 </div>
 
-<div>
-    <ul class="container" >
-      <li class="card" *ngFor="let blog of blogs" >
-        <button (click)="deleteBlog(blog.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
-        <div class="card-header">
-          <div class="date">6 Oct 2017</div>
-          <img src="../../assets/images/samuro.jpg">
-        </div>
-        <div class="card-body" >
-          <span class="tag tag-teal">{{blog.category?.name}}</span>
-          <div class="user">
-            <div class="user-info">
-              <a routerLink="yourarticles/{{blog.id}}">{{blog.name}}</a>
-              <p>{{blog.id}},{{blog.user?.email}}</p>
-              <div>Id User:{{blog.idUser}} </div>
-            </div>
+<div class="section">
+      <div class="blogs-header-wrap">
+        <div class="blogs-header">
+          <div>
+            Категория:
+            <select [(ngModel)]="selectedCategoryId" (change)="SortByCategory()">
+              <option value="0" selected>Все</option>
+              <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+            </select>
+          
           </div>
+          <input class="searching" placeholder="Название блога" [(ngModel)]="nameBlog" (ngModelChange)="searching()" type="search">
         </div>
-      </li>
-    </ul>
-
-</div>
-
-<!-- <div class="section">
-  <div class="blogs-header-wrap">
-    <div class="blogs-header">
-      <a routerLink="/addarticle">
-        <h2>Add new article</h2>
-      
-      </a>
-      <input class="searching" type="search">
-    </div>
-  </div>
-  <ul class="container" >
-    <li class="card" *ngFor="let blog of blogs" >
+      </div>
+      <ul class="container" >
+        <li class="card" *ngFor="let blog of showBlog" >
+          <button (click)="deleteBlog(blog.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
           <div class="card-header">
-            <div class="date">6 Oct 2017</div>
             <img src="../../assets/images/samuro.jpg">
           </div>
           <div class="card-body" >
-            <span class="tag tag-teal">Technology</span>
-            <div class="user">
-              <div class="user-info">
-                <a routerLink="/articles/{{blog.id}}">{{blog.name}}</a>
-                <p>{{blog.id}},{{blog.user?.email}}</p>
-                <div>Id User:{{blog.idUser}} </div>
-              </div>
-            </div>
+            <span class="tag tag-teal">{{blog.category?.name}}</span>
+            <h1>
+              <a routerLink="yourarticles/{{blog.id}}">{{blog.name}}</a>
+            </h1>
+            <div class="date">6 Oct 2017</div>
+
+            
           </div>
-    </li>
-  </ul>
- 
+        </li>
+    </ul>
+
+</div>
+<!-- <div class="user">
+  <div class="user-info">
+   
+      <img src="../../assets/images/user.png">
+      <a routerLink="/user/{{blog.idUser}}">{{blog.user?.userName}} </a>
+    
+  </div>
 </div> -->

@@ -9,6 +9,7 @@ namespace BlogWebAPI.Entities
         //public int Id { get; set; }
         //public string Email { get; set; } = null!;
         //public string Password { get; set; } = null!;
+        //public byte[] Photo { get; set; }
         public virtual ICollection<Blog> Blogs { get; set; } = null!;
         public virtual ICollection<Like> Likes { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; } = null!;

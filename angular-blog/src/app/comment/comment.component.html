@@ -1,33 +1,28 @@
+
 <div class="section" *ngIf="article">
+  <div class="comment-label">
+    <p style="margin-top: 0;">Комментарии:</p>
+
+  </div>
   <form class="comment-area" [formGroup]="commentForm" (submit)="addNewComment()">
     <textarea name="description" formControlName="description" class="comment-text"></textarea>
-    <input type="submit" [disabled]="!commentForm.valid" value="Send">
+    <input class="bn11" type="submit" [disabled]="!commentForm.valid" value="Send">
   </form>
-  <div class="container">
-    <ul class="" *ngFor="let comment of comments">
-      <li>{{comment.id}},{{comment.description}}, {{comment.idUser}}</li>  
-    </ul>
-  </div>
+  <ul class="container" >
+    <li class="users-wrap" *ngFor="let comment of comments" >
+          <a routerLink="/user/{{comment.user?.id}}" class="users-body" >
+            <div class="user">
+              <img src="../../assets/images/user.png">
+              <p>{{comment?.user?.userName}} </p>
+              
+            </div>
+          </a>
+          <div class="asddsa">
+            <p class="user-comment">{{comment.description}}</p>
+
+          </div>
+    </li>
+  </ul>
   
 </div>
 
-<!-- <div class="section" *ngIf="blog">
-    <ul class="container" *ngFor="let article of blog.articles">
-      <li  class="card">
-        <button (click)="deleteArticle(article.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
-        <div class="card-header">
-          <div class="date">6 Oct 2017</div>
-          <img src="../../assets/images/samuro.jpg">
-        </div>
-        <div class="card-body">
-          <div class="user-info">
-            <h2 style="color: black;">{{article.title}}</h2>
-            <span>{{article.description}}</span>
-            <div>Id User:{{blog.idUser}} </div>
-          </div>
-        </div>
-  
-      </li>
-      
-    </ul>
-  </div> -->

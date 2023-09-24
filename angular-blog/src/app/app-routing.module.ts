@@ -12,19 +12,26 @@ import { NewBlogComponent } from './new-blog/new-blog.component';
 import { YourBlogsComponent } from './your-blogs/your-blogs.component';
 import { YourArticlesComponent } from './your-articles/your-articles.component';
 import { RegisterComponent } from './register/register.component';
+import { ArticleDetailsComponent } from './article-details/article-details.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
 //попытаться сделать так чтобы компоненты для которых нужен auth были скрыты
 const routes: Routes = [
-  { path: '', redirectTo:'/blogs', pathMatch:'full'},
-  { path: 'blogs', component: BlogComponent},
+  { path: '', redirectTo:'/home', pathMatch:'full'},
+  { path: 'home', component: HomeComponent},
+  // { path: 'blogs', component: BlogComponent},
   { path: 'articles/:id', component: ArticleComponent, pathMatch:'full'},
   { path: 'addarticle', component: ArticleEditorComponent, pathMatch:'full', canActivate:[AuthGuard]},
-  { path: 'user', component:UserComponent, pathMatch:'full', canActivate:[AuthGuard]},
+  { path: 'profile', component:ProfileComponent, pathMatch:'full', canActivate:[AuthGuard]},
+  { path: 'user/:id', component:UserComponent, pathMatch:'full', canActivate:[AuthGuard]},
   { path: 'logout', component:LogOutComponent, pathMatch:'full',canActivate:[AuthGuard]},
   { path: 'login', component:AuthComponent},
   { path: 'register', component:RegisterComponent},
   { path: 'newblog', component:NewBlogComponent, pathMatch:"full", canActivate:[AuthGuard]},
   { path: 'yourblogs', component:YourBlogsComponent, pathMatch:"full", canActivate:[AuthGuard]},
-  { path: 'yourblogs/yourarticles/:id', component:YourArticlesComponent, pathMatch:"full", canActivate:[AuthGuard]}
+  //не забыть поправить роутинг на мои блоги и мои артиклы
+  { path: 'profile/yourarticles/:id', component:YourArticlesComponent, pathMatch:"full", canActivate:[AuthGuard]},
+  { path: 'articledetails/:id', component:ArticleDetailsComponent}
  
 
 ];

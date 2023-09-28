@@ -156,6 +156,7 @@ namespace BlogWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetArticle(int id)
         {
+
             var article = await _db.Articles.Include(x => x.Blog).ThenInclude(x=> x.User).FirstOrDefaultAsync(x=> x.Id==id);
             if (article != null)
             {

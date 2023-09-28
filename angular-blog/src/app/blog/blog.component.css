@@ -49,7 +49,42 @@
        padding: 20px;
        min-height: 200px;
      }
-     
+     .hover {
+      background-image: linear-gradient(
+        to right,
+        #fb5400,
+        #54b3d6 50%,
+        #000 50%
+      );
+      background-size: 200% 100%;
+      background-position: -100%;
+      display: inline-block;
+      padding: 5px 0;
+      position: relative;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .hover:before{
+      content: '';
+      background: #ff6f00;
+      display: block;
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .hover:hover {
+     background-position: 0;
+    }
+    
+    .hover:hover::before{
+      width: 100%;
+    }
      .tag {
        background: #cccccc;
        border-radius: 50px;
@@ -158,4 +193,8 @@
       height: 100vh;
       place-items: center;
     } 
+
+    
+    
+    
      

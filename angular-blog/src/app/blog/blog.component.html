@@ -1,8 +1,8 @@
 <div class="section">
     <div class="blogs-header-wrap">
       <div class="blogs-header">
-        <div>
-          Категория:
+        <div >
+          Категория
           <select [(ngModel)]="selectedCategoryId" (change)="SortByCategory()">
             <option value="0" selected>Все</option>
             <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
@@ -21,7 +21,7 @@
             <div class="card-body" >
               <span class="tag tag-teal">{{blog.category?.name}}</span>
               <h1>
-                <a routerLink="/articles/{{blog.id}}">{{blog.name}}</a>
+                <a class="hover" routerLink="/articles/{{blog.id}}">{{blog.name}}</a>
 
               </h1>
               <div class="user">

@@ -106,6 +106,7 @@ body {
   justify-content: space-between;
 }
 .info{
+  margin-top: 10px;
   display: flex;
   height: 100%;
   align-items: center;
@@ -120,8 +121,10 @@ body {
   color: #fff;
   font-weight: 600;
   font-size: 1.1rem;
+ 
  }
 .date{
+  border-bottom: solid #434343;
   color: #fff;
   font-weight: 600;
   font-size: 1.1rem;
@@ -132,6 +135,9 @@ body {
 .date p{
   font-size: 1em;
   margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 .description{
   color: #fff;

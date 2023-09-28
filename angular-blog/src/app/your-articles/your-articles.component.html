@@ -2,18 +2,27 @@
 <!-- <button type="button" (click)="goBack()">go back</button>-->
 
 <div class="section" *ngIf="blog">
-  <ul class="container" *ngFor="let article of blog.articles">
+  <input class="searching" placeholder="search" [(ngModel)]="articleTitle" (ngModelChange)="searching()" type="search">
+  <ul class="container" *ngFor="let article of articles">
     <li  class="card">
-      <button (click)="deleteArticle(article.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
+      <button class="btn1" (click)="deleteArticle(article.id!)">
+        <div>
+          <img src="../../assets/images/close.png">
+
+        </div>
+      </button>
       <div class="card-header">
-        <div class="date">6 Oct 2017</div>
-        <img src="../../assets/images/samuro.jpg">
+        <app-photo  [userImage]="article.photo"></app-photo>
       </div>
-      <div class="card-body">
+      <div class="card-body" >
+        <a class="hover" routerLink="/articledetails/{{article.id}}">{{article.title}}</a>
+        <span class="description">{{cutDescription(article.description!)}}</span>
         <div class="user-info">
-          <h2 style="color: black;">{{article.title}}</h2>
-          <span>{{article.description}}</span>
-          <div>Id User:{{blog.idUser}} </div>
+          <div class="info">
+            <img src="../../assets/images/user.png">
+            <a routerLink="/user/{{blog.idUser}}">{{blog.user?.userName}} </a>
+          </div>
+          <div class="date">6 Oct 2017</div>
         </div>
       </div>
 
@@ -21,3 +30,28 @@
     
   </ul>
 </div>
+
+<!-- <button type="button" (click)="goBack()">go back</button>
+<div class="section" *ngIf="blog">
+    <input class="searching" placeholder="search" [(ngModel)]="articleTitle" (ngModelChange)="searching()" type="search">
+    <ul class="container" *ngFor="let article of articles">
+      <li  class="card">
+        <div class="card-header">
+          <app-photo  [userImage]="article.photo"></app-photo>
+
+        </div>
+        <a class="card-body" routerLink="/articledetails/{{article.id}}">
+          <h1>{{article.title}}</h1>
+          <span class="description">{{cutDescription(article.description!)}}</span>
+          <div class="user-info">
+            <div class="info">
+              <img src="../../assets/images/user.png">
+              <a routerLink="/user/{{blog.idUser}}">{{blog.user?.userName}} </a>
+            </div>
+            <div class="date">6 Oct 2017</div>
+          </div>
+        </a>
+      </li>
+      
+    </ul>
+</div> -->

@@ -1,5 +1,5 @@
-<p>new-blog works!</p>
-<div class="d-flex flex-column align-items-center justify-content-center" >
+
+<!-- <div class="d-flex flex-column align-items-center justify-content-center" >
     <p>Create your Blog!!!</p>
     <form class="form w-50" [formGroup]="blogForm" (submit)="addNewBlog()">
         <div class="row m-3">
@@ -13,4 +13,47 @@
             <button class="col btn btn-primary" [disabled]="!blogForm.valid" type="submit">Add new Blog</button>
         </div>
     </form>
+</div> -->
+
+<div class="section">
+    <div class="container">
+        <div class="row full-height justify-content-center">
+            <div class="col-12 text-center align-self-center py-5">
+                <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                    <h1 class="mb-4 pb-3">Create your Blog</h1>
+                    <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="center-wrap">
+                                    <form class="section text-center" style="height: 100%;"[formGroup]="blogForm" (submit)="addNewBlog()">
+                                        
+                                        <div class="form-wrap">
+                                            <div class="form-group">
+                                                <label for="blogName">Name of blog</label>
+                                                <input type="text" class="form-style" placeholder="Blog name" name="blogName" formControlName="blogName" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="category">Category</label>
+                                                <select class="form-style" aria-placeholder="Select category"  formControlName="category" name="category">
+                                                    <option *ngFor="let category of categories"  value="{{category.id}}">{{category.name}}</option>
+                                                </select>
+                                            </div>
+                                                <button class="btn mt-4" [disabled]="!blogForm.valid" type="submit">Add new Blog</button>
+                                        </div>
+                                        
+                                        
+                                    </form>
+                              </div>
+                            </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
 </div>
+<!-- 
+<ng-template #signedInAlready>
+    <div>
+        You are already signed in!
+    </div>
+</ng-template> -->

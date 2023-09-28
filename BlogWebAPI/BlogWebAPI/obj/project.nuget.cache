@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "f+z9PVTBWuretnLKysUEd0EMTlKVlqPlbJKN4wJQ00ySOOy8H8CR+rU964bmF4/1lBoB0YJMGjvFuCld22J3ZA==",
+  "dgSpecHash": "naosx4O/BkIG1jzpJ+Tss0grKwJ1FaAtB8vDq3vy6RgNmWKlrRyrZdx3QJLsIqxK8LKs1qo226TrYYEdkC32gw==",
   "success": true,
   "projectFilePath": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\BlogWebAPI.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\vlad-\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
+    "C:\\Users\\vlad-\\.nuget\\packages\\fluentvalidation\\11.7.1\\fluentvalidation.11.7.1.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\mailkit\\4.1.0\\mailkit.4.1.0.nupkg.sha512",
     "C:\\Users\\vlad-\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

@@ -33,7 +33,7 @@ export class BlogComponent {
   
   searching(){
     
-    console.log(this.showBlog)
+    console.log(this.blogs)
     if(!this.inCategoryFlag){
 
       if(this.nameBlog==""){

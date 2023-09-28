@@ -66,9 +66,12 @@ export class ArticleEditorComponent {
     }
 
     onClickBlog(blog:Blog){
+      console.log("blog selected")
       this.blog=blog;
     }
-
+    log(){
+      console.log("click")
+    }
     goBack(): void {
       this.location.back();
     }

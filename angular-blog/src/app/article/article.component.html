@@ -7,8 +7,8 @@
           <app-photo  [userImage]="article.photo"></app-photo>
 
         </div>
-        <a class="card-body" routerLink="/articledetails/{{article.id}}">
-          <h1>{{article.title}}</h1>
+        <div class="card-body" >
+          <a class="hover" routerLink="/articledetails/{{article.id}}">{{article.title}}</a>
           <span class="description">{{cutDescription(article.description!)}}</span>
           <div class="user-info">
             <div class="info">
@@ -17,7 +17,7 @@
             </div>
             <div class="date">6 Oct 2017</div>
           </div>
-        </a>
+        </div>
       </li>
       
     </ul>

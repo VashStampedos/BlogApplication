@@ -55,6 +55,6 @@ export class AuthComponent implements OnInit {
       }
       
     )
-    this.router.navigateByUrl("/blogs")
+    this.router.navigateByUrl("/home")
   }
 }

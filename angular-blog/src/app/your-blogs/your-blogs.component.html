@@ -29,14 +29,22 @@
       </div>
       <ul class="container" >
         <li class="card" *ngFor="let blog of showBlog" >
-          <button (click)="deleteBlog(blog.id!)"><img src="../../assets/images/close.png" height="10px" width="10px"></button>
+          <div class="delete">
+            <button class="btn1" (click)="deleteBlog(blog.id!)">
+              <div>
+                <img src="../../assets/images/close.png" >
+  
+              </div>
+            </button>
+
+          </div>
           <div class="card-header">
             <img src="../../assets/images/samuro.jpg">
           </div>
           <div class="card-body" >
             <span class="tag tag-teal">{{blog.category?.name}}</span>
             <h1>
-              <a routerLink="yourarticles/{{blog.id}}">{{blog.name}}</a>
+              <a class="hover" routerLink="yourarticles/{{blog.id}}">{{blog.name}}</a>
             </h1>
             <div class="date">6 Oct 2017</div>
 

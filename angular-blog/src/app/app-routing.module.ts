@@ -18,7 +18,7 @@ import { HomeComponent } from './home/home.component';
 //попытаться сделать так чтобы компоненты для которых нужен auth были скрыты
 const routes: Routes = [
   { path: '', redirectTo:'/home', pathMatch:'full'},
-  { path: 'home', component: HomeComponent},
+  { path: 'home', pathMatch:'full' , component: HomeComponent},
   // { path: 'blogs', component: BlogComponent},
   { path: 'articles/:id', component: ArticleComponent, pathMatch:'full'},
   { path: 'addarticle', component: ArticleEditorComponent, pathMatch:'full', canActivate:[AuthGuard]},

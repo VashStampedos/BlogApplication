@@ -33,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DTO\User\" />
+    <Folder Include="DTO\Blog\" />
+    <Folder Include="Validators\RequestsValidators\BlogValidators\" />
+    <Folder Include="Validators\RequestsValidators\UserValidators\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

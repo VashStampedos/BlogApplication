@@ -1,19 +1,12 @@
 ﻿using AutoMapper;
+using BlogWebAPI.DTO.Auth;
 using BlogWebAPI.Entities;
-using BlogWebAPI.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using BlogWebAPI.Results;
+using BlogWebAPI.Services;
+using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Security.Principal;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace BlogWebAPI.Controllers
 {
@@ -21,107 +14,95 @@ namespace BlogWebAPI.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        BlogApplicationContext _db;
+       
         UserManager<User> _userManager;
         SignInManager<User> _signInManager;
-        IMapper mapper;
-        public AccountController(BlogApplicationContext context, IMapper _mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        RegisterUserValidator _registerValidator;
+        ConfirmEmailValidator _confirmEmailValidator;
+        LoginUserValidator _logInValidator;
+        AccountService _accountService;
+        public AccountController(
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            RegisterUserValidator registerValidator,
+            ConfirmEmailValidator confirmEmailValidator,
+            LoginUserValidator logInValidator,
+            AccountService accountService
+            )
         {
-            _db = context;
-            mapper = _mapper;
             _userManager = userManager;
             _signInManager = signInManager;
+            _registerValidator = registerValidator;
+            _confirmEmailValidator = confirmEmailValidator;
+            _accountService = accountService;
+            _logInValidator = logInValidator;
         }
-        public record RegisterRequest( string username, string email, string password);
+        
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest register)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
-            string username = register.username;
-            string email = register.email;
-            string password = register.password;
-            if(!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(email) || !string.IsNullOrEmpty(password))
+            var validationResult = await _registerValidator.ValidateAsync(request);
+            if (validationResult.IsValid)
             {
-                var findResult = await _userManager.FindByEmailAsync(email);
-                if (findResult != null)
+                var registerResult =await _accountService.CreateUserAsync(request);
+                if (registerResult.Succeeded)
                 {
-                    return BadRequest("This user is already exists");
-                }
-                var user = new User
-                {
-                    UserName = username,
-                    Email = email
-                };
-                var createResult = await _userManager.CreateAsync(user, password);
-                var users = _userManager.Users.ToList();
-                if (createResult.Succeeded)
-                {
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callback = Url.Action("ConfirmEmail",
+                    //var urlBuilder = new UriBuilder("https", default, 7018, "/Account/ConfirmEmail", $"{new { userid = registerResult.User.Id, token = registerResult.Token }}");
+
+                    var callback = Url.Action(
+                        "ConfirmEmail",
                         "Account",
-                        new { userid = user.Id, token = token },
+                        new { userid = registerResult.User.Id, token = registerResult.Token },
                         protocol: HttpContext.Request.Scheme);
-                    //сделать через DI
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(email, "Подтверждение", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callback}'> Подтвердить!!!!</a>");
+
+                    await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email, callback);
                     return Json("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
-                return StatusCode(200);
             }
             return BadRequest();
+
+            
         }
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
         {
-            if (userId == null || token == null)
+            var validationResult = await _confirmEmailValidator.ValidateAsync(request);
+            if (validationResult.IsValid)
             {
-                return BadRequest();
+                var confirmResult =await _accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
+                if (confirmResult)
+                {
+                    //
+                    return RedirectToAction("Blogs", "Blog");
+
+                }
             }
-            var users = _userManager.Users.ToList();
-            var user = await _userManager.FindByIdAsync(userId); 
-           
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (result.Succeeded)
-                return RedirectToAction("Blogs", "Blog");
-            else
-                return BadRequest();
+            return BadRequest();
         }
 
       
         [AllowAnonymous]
-        //
         [HttpPost]
-        //рефакторить
-        public async Task<IActionResult> Login([FromBody] SignInRequest request)
+        public async Task<IActionResult> Login([FromBody] LogInRequest request)
         {
-            var email = request.Email;
-            var password = request.Password;
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            var result =await _logInValidator.ValidateAsync(request);
+            if (result.IsValid)
             {
-                return BadRequest();
+                var logInResult =await _accountService.LogInAsync(request.Email, request.Password );
+                if(logInResult)
+                    return Ok(new { isSuccess = true, message = "Success login" }) ;
             }
-            var normEmail = _userManager.NormalizeEmail(email);
-            var user = await _userManager.FindByEmailAsync(normEmail);
-            if (user == null)
-            {
-                return StatusCode(500);
-            }
-            var result = await _signInManager.PasswordSignInAsync(user, password, true, false);
-            if (result.Succeeded)
-            {
-
-                //var claims =await _signInManager.CreateUserPrincipalAsync(user);
-
-                return Ok(new { isSuccess = true, message = "Success login" }) ;
-                //return Ok(result);
-
-            }
-           
             return Unauthorized();
         }
         public async Task<IActionResult> LogOut()
         {
-            await _signInManager.SignOutAsync();
-            return Ok();
+            if (User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+                return Ok();
+                
+            }
+            return BadRequest();
         }
         
 
@@ -143,6 +124,6 @@ namespace BlogWebAPI.Controllers
         }
        
     }
-    public record SignInRequest(string Email, string Password);
+
 
 }

@@ -16,6 +16,8 @@ namespace BlogWebAPI.Entities
         public virtual ICollection<Subscribe> Subscribes { get; set; } = null!;
     }
 
+    
+
     public class Role : IdentityRole<int>
     {
 

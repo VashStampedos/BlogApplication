@@ -26,7 +26,10 @@ export class SubscribersComponent {
     
   }
 
-  
+  // updatePage(){
+  //   console.log("reload");
+  //   window.document.location.reload();
+  // }
 
   searching(){
     console.log(this.subscribers)

@@ -189,3 +189,4 @@ C:\Users\vlad-\Github\BlogApplication\BlogWebAPI\BlogWebAPI\obj\Debug\net7.0\Blo
 C:\Users\vlad-\Github\BlogApplication\BlogWebAPI\BlogWebAPI\obj\Debug\net7.0\BlogWebAPI.genruntimeconfig.cache
 C:\Users\vlad-\Github\BlogApplication\BlogWebAPI\BlogWebAPI\obj\Debug\net7.0\ref\BlogWebAPI.dll
 C:\Users\vlad-\Github\BlogApplication\BlogWebAPI\BlogWebAPI\bin\Debug\net7.0\BlogWebAPI.staticwebassets.runtime.json
+C:\Users\vlad-\Github\BlogApplication\BlogWebAPI\BlogWebAPI\bin\Debug\net7.0\FluentValidation.dll

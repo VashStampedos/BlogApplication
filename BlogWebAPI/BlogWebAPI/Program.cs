@@ -1,10 +1,9 @@
-using AutoMapper;
+
+using BlogWebAPI.Configures.Services;
+using BlogWebAPI.Configuries.Validators;
 using BlogWebAPI.Entities;
-using BlogWebAPI.MapperProfiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +47,12 @@ builder.Services.AddCors(options => options.AddPolicy("BlogApi", policy =>
 }));
 
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Services.ConfigureValidatorServices();
+builder.Services.ConfigureControllersServices();
+
+
 
 
 var app = builder.Build();

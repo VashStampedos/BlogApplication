@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'yourblogs', component:YourBlogsComponent, pathMatch:"full", canActivate:[AuthGuard]},
   //не забыть поправить роутинг на мои блоги и мои артиклы
   { path: 'profile/yourarticles/:id', component:YourArticlesComponent, pathMatch:"full", canActivate:[AuthGuard]},
-  { path: 'articledetails/:id', component:ArticleDetailsComponent}
+  { path: 'articledetails/:id', component:ArticleDetailsComponent, canActivate:[AuthGuard]}
  
 
 ];

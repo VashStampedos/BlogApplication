@@ -26,13 +26,13 @@ export class AuthService {
   }
 
   public logOut(){
-    return this.http.get('https://localhost:7018/Account/logout', {withCredentials:true})
+    return this.http.get('https://localhost:7018/Account/logout')
   }
   
   public user() {
     console.log("cookie is " + document.cookie)
     
-    return this.http.get<UserClaim[]>('https://localhost:7018/Account/GetUserClaims', {withCredentials:true});
+    return this.http.get<UserClaim[]>('https://localhost:7018/Account/GetUserClaims');
   } 
 
    

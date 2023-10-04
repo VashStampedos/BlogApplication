@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7GIAj81dgwBD0nYGsUQfsrXvfH52GGmrWD9E0Ai5kE8=",
+  "Hash": "68wxDJS1kVC35+ki12vqCTCnilQSItcK04WrXwi5p1o=",
   "Source": "BlogWebAPI",
   "BasePath": "_content/BlogWebAPI",
   "Mode": "Default",
@@ -134,6 +134,57 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\heartfill.png"
+    },
+    {
+      "Identity": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\Images\\Снимок экрана (2).png",
+      "SourceId": "BlogWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\",
+      "BasePath": "_content/BlogWebAPI",
+      "RelativePath": "Images/Снимок экрана (2).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\Снимок экрана (2).png"
+    },
+    {
+      "Identity": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\Images\\Снимок экрана (3).png",
+      "SourceId": "BlogWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\",
+      "BasePath": "_content/BlogWebAPI",
+      "RelativePath": "Images/Снимок экрана (3).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\Снимок экрана (3).png"
+    },
+    {
+      "Identity": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\Images\\Снимок экрана (4).png",
+      "SourceId": "BlogWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\",
+      "BasePath": "_content/BlogWebAPI",
+      "RelativePath": "Images/Снимок экрана (4).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\Снимок экрана (4).png"
     }
   ]
 }

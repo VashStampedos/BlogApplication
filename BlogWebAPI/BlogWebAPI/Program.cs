@@ -1,5 +1,6 @@
 
 using BlogWebAPI.Configures.Services;
+using BlogWebAPI.Configures.Storages;
 using BlogWebAPI.Configuries.Validators;
 using BlogWebAPI.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +52,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.ConfigureValidatorServices();
 builder.Services.ConfigureControllersServices();
-
+builder.Services.ConfigureValidatorsStorage();
 
 
 

@@ -8,8 +8,8 @@ namespace BlogWebAPI.Configures.Services
         public static void ConfigureControllersServices(this IServiceCollection services)
         {
             services.AddScoped<AccountService>();
-            services.AddScoped<BlogService>();
             services.AddScoped<UserService>();
+            services.AddScoped<BlogService>();
             services.AddScoped<EmailService>();
         }
     }

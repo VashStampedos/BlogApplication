@@ -3,6 +3,7 @@ using BlogWebAPI.DTO.Auth;
 using BlogWebAPI.Entities;
 using BlogWebAPI.Results;
 using BlogWebAPI.Services;
+using BlogWebAPI.Storages;
 using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,31 +18,27 @@ namespace BlogWebAPI.Controllers
        
         UserManager<User> _userManager;
         SignInManager<User> _signInManager;
-        RegisterUserValidator _registerValidator;
-        ConfirmEmailValidator _confirmEmailValidator;
-        LoginUserValidator _logInValidator;
+        ValidatorsStorage _validators;
         AccountService _accountService;
         public AccountController(
             UserManager<User> userManager, 
-            SignInManager<User> signInManager, 
-            RegisterUserValidator registerValidator,
-            ConfirmEmailValidator confirmEmailValidator,
-            LoginUserValidator logInValidator,
-            AccountService accountService
+            SignInManager<User> signInManager,
+            AccountService accountService,
+            ValidatorsStorage validators
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _registerValidator = registerValidator;
-            _confirmEmailValidator = confirmEmailValidator;
             _accountService = accountService;
-            _logInValidator = logInValidator;
+            _validators = validators;
+
         }
         
         [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
-            var validationResult = await _registerValidator.ValidateAsync(request);
+            var validationResult = await _validators._registerValidator.ValidateAsync(request);
             if (validationResult.IsValid)
             {
                 var registerResult =await _accountService.CreateUserAsync(request);
@@ -55,7 +52,7 @@ namespace BlogWebAPI.Controllers
                         new { userid = registerResult.User.Id, token = registerResult.Token },
                         protocol: HttpContext.Request.Scheme);
 
-                    await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email, callback);
+                    await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email , callback);
                     return Json("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
             }
@@ -66,7 +63,7 @@ namespace BlogWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
         {
-            var validationResult = await _confirmEmailValidator.ValidateAsync(request);
+            var validationResult = await _validators._confirmEmailValidator.ValidateAsync(request);
             if (validationResult.IsValid)
             {
                 var confirmResult =await _accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
@@ -85,7 +82,7 @@ namespace BlogWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LogInRequest request)
         {
-            var result =await _logInValidator.ValidateAsync(request);
+            var result =await _validators._logInValidator.ValidateAsync(request);
             if (result.IsValid)
             {
                 var logInResult =await _accountService.LogInAsync(request.Email, request.Password );

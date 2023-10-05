@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\Images\\heartfill.png"
     },
     {
+      "Id": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\Images\\Снимок экрана (1).png",
+      "PackagePath": "staticwebassets\\Images\\Снимок экрана (1).png"
+    },
+    {
       "Id": "C:\\Users\\vlad-\\Github\\BlogApplication\\BlogWebAPI\\BlogWebAPI\\wwwroot\\Images\\Снимок экрана (2).png",
       "PackagePath": "staticwebassets\\Images\\Снимок экрана (2).png"
     },

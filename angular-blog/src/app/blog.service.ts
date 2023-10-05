@@ -37,7 +37,7 @@ export class BlogService {
     return blog;
   }
   addNewBlog(name:string, idCategory:number){
-    return this.http.post("https://localhost:7018/Blog/AddNewBlog",{name, idCategory});
+    return this.http.post("https://localhost:7018/Blog/AddNewBlog",{name:name, categoryId:idCategory});
   }
   deleteBlog(id:number){
     return this.http.delete(`https://localhost:7018/Blog/DeleteBlog?id=${id}`)
@@ -48,7 +48,7 @@ export class BlogService {
   }
   addComment(idArticle:number, description:string){
     return this.http.post
-    ("https://localhost:7018/Blog/AddNewComment",{idArticle:idArticle,description:description})
+    ("https://localhost:7018/Blog/AddNewComment",{articleId:idArticle,description:description})
   }
   getLikes(id:number):Observable<LikeResponse>{
     console.log("id from getLikes: "+ id)
@@ -71,7 +71,7 @@ export class BlogService {
     formData.append('title', title)
     formData.append("description", description)
     formData.append("photo", photo)
-    formData.append("idblog", ""+idblog)
+    formData.append("blogId", ""+idblog)
     formData.forEach(x=> console.log(x.valueOf()))
     // console.log("formData")
     // console.log(formData)

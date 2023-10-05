@@ -1,6 +1,7 @@
 ﻿
 using BlogWebAPI.Validators.ModelsValidators;
 using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
+using BlogWebAPI.Validators.RequestsValidators.BlogValidators;
 
 namespace BlogWebAPI.Configuries.Validators
 {
@@ -11,6 +12,9 @@ namespace BlogWebAPI.Configuries.Validators
             services.AddScoped<RegisterUserValidator>();
             services.AddScoped<ConfirmEmailValidator>();
             services.AddScoped<LoginUserValidator>();
+            services.AddScoped<CreateBlogValidator>();
+            services.AddScoped<CreateArticleValidator>();
+            services.AddScoped<CreateCommentValidator>();
             services.AddScoped<ArticleValidator>();
             services.AddScoped<BlogValidator>();
             services.AddScoped<CategoryValidator>();

@@ -5,6 +5,7 @@ using BlogWebAPI.Results;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Security.Policy;
 
 namespace BlogWebAPI.Services
@@ -37,6 +38,7 @@ namespace BlogWebAPI.Services
             var user = await _userManager.FindByEmailAsync(normalizedEmail);
             return user != null ? true:false;
         }
+        
 
         private async Task<User> GetUserbyEmailAsync(string email)
         {
@@ -52,6 +54,12 @@ namespace BlogWebAPI.Services
                 Email = email
             };
 
+        }
+
+        public async Task<User> GetCurrentUser(ClaimsPrincipal user)
+        {
+            var cuurentUser = await _userManager.GetUserAsync(user);
+            return cuurentUser;
         }
 
         public async Task<RegisterResult> CreateUserAsync(RegisterUserRequest requset)
@@ -71,7 +79,6 @@ namespace BlogWebAPI.Services
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     return RegisterResult.Success(token, user);
-              
                     
                 }
             }

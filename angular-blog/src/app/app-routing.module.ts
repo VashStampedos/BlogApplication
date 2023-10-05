@@ -19,7 +19,6 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', redirectTo:'/home', pathMatch:'full'},
   { path: 'home', pathMatch:'full' , component: HomeComponent},
-  // { path: 'blogs', component: BlogComponent},
   { path: 'articles/:id', component: ArticleComponent, pathMatch:'full'},
   { path: 'addarticle', component: ArticleEditorComponent, pathMatch:'full', canActivate:[AuthGuard]},
   { path: 'profile', component:ProfileComponent, pathMatch:'full', canActivate:[AuthGuard]},

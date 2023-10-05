@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogWebAPI.Entities;
 using BlogWebAPI.Models;
+using BlogWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,32 +15,37 @@ namespace BlogWebAPI.Controllers
         BlogApplicationContext _db;
         UserManager<User> _userManager;
         IMapper mapper;
+        UserService _userService;
 
-        public UserController(BlogApplicationContext context, UserManager<User> userManager, IMapper _mapper)
+        public UserController(BlogApplicationContext context, 
+            UserManager<User> userManager, 
+            IMapper _mapper,
+            UserService userService
+            )
         {
             _db = context;
             _userManager = userManager;
             mapper = _mapper;
+            _userService = userService;
         }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetUser(int id)
         {
-            bool isSubscribe = false;
-            var user =await _db.Users.Include(x => x.Subscribes).ThenInclude(x=> x.Subscriber).Include(x=>x.Blogs).FirstOrDefaultAsync(x=> x.Id == id);
-            if (user != null)
+            if(id >0)
             {
-                var mappedUser = mapper.Map<UserModel>(user);
                 if (User.Identity.IsAuthenticated)
                 {
-                    var currentUser = await _userManager.GetUserAsync(User);
-                    var subsUser =await _db.Subscribes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.SubscriberId == currentUser.Id);
-                    isSubscribe = subsUser != null ? true : false;
-                  
+                     
+                    var result =await _userService.GetUserAsync(id, User);
+                    if(result.Succeeded)
+                    return Json(result.Data);
+                
+
                 }
-                return Ok(new { UserModel = mappedUser, IsSubscribe = isSubscribe });
+
             }
-            return BadRequest("User not found");
+            return BadRequest();
         }
         [HttpGet]
         public async Task<IActionResult> GetCurrentUser()

@@ -3,6 +3,7 @@ using BlogWebAPI.Configures.Services;
 using BlogWebAPI.Configures.Storages;
 using BlogWebAPI.Configuries.Validators;
 using BlogWebAPI.Entities;
+using BlogWebAPI.Middleware;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +58,7 @@ builder.Services.ConfigureValidatorsStorage();
 
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("BlogApi");

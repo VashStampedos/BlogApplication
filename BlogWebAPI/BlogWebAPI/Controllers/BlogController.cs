@@ -55,7 +55,7 @@ namespace BlogWebAPI.Controllers
         {
             if (id > 0)
             {
-                var blogs = await _blogService.GetUserBlogsByIdAsync(id); 
+                var blogs = await _blogService.GetUserBlogsByUserIdAsync(id); 
                 return Json(blogs);
                 
             }
@@ -86,8 +86,8 @@ namespace BlogWebAPI.Controllers
             if (result.IsValid)
             {
                 var createResult = await _blogService.CreateNewBlogAsync(request.Name, request.CategoryId, User);
-                if(createResult)
-                    return Ok();
+                
+                    return Ok(ApiResult<int>.Success(createResult));
             }
             return BadRequest();
         }
@@ -99,8 +99,8 @@ namespace BlogWebAPI.Controllers
             if (id > 0 && user !=null)
             {
                 var deleteResult = await _blogService.DeleteBlogAsync(id, user.Id);
-                if (deleteResult)
-                return Ok();
+                
+                return Ok(ApiResult<int>.Success(deleteResult));
                 
             }
             return BadRequest();
@@ -113,13 +113,11 @@ namespace BlogWebAPI.Controllers
             if (id > 0)
             {
                 var blogModel =await _blogService.GetBlogAsync(id);
-                if (blogModel != null)
-                {
-                    return Json(blogModel);
+                return Json(blogModel);
 
-                }
+                
             }
-            return NotFound();
+            return BadRequest();
         }
         [HttpGet]
         [AllowAnonymous]
@@ -134,7 +132,7 @@ namespace BlogWebAPI.Controllers
         {
             if(id > 0)
             {
-                var articleModel =await _blogService.GetArticleAsync(id);
+                var articleModel =await _blogService.GetArticleModelByIdAsync(id);
                 return Json(articleModel);
             }
             return BadRequest("Article not found");
@@ -147,10 +145,10 @@ namespace BlogWebAPI.Controllers
             var result =await _validators._createArticleValidator.ValidateAsync(request);
             if (result.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-                var createResult = await _blogService.CreateArticleAsync(request.Title, request.Description, request.Photo, request.BlogId, user);
-                if (createResult)
-                    return Ok();
+               
+                var createResult = await _blogService.CreateArticleAsync(request.Title, request.Description, request.Photo, request.BlogId, User);
+                
+                return Ok(ApiResult<int>.Success(createResult));
 
             }
             return BadRequest();
@@ -162,8 +160,8 @@ namespace BlogWebAPI.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 var deleteResult = await _blogService.DeleteArticleAsync(id, user.Id);
-                if(deleteResult) 
-                    return Ok();
+                
+                    return Ok(ApiResult<int>.Success(deleteResult));
             }
             return BadRequest();
         }

@@ -8,6 +8,7 @@ using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BlogWebAPI.Controllers
 {
@@ -19,7 +20,7 @@ namespace BlogWebAPI.Controllers
         UserManager<User> _userManager;
         SignInManager<User> _signInManager;
         ValidatorsStorage _validators;
-        AccountService _accountService;
+        AccountService accountService;
         public AccountController(
             UserManager<User> userManager, 
             SignInManager<User> signInManager,
@@ -29,7 +30,7 @@ namespace BlogWebAPI.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accountService = accountService;
+            this.accountService = accountService;
             _validators = validators;
 
         }
@@ -41,22 +42,20 @@ namespace BlogWebAPI.Controllers
             var validationResult = await _validators._registerValidator.ValidateAsync(request);
             if (validationResult.IsValid)
             {
-                var registerResult =await _accountService.CreateUserAsync(request);
-                if (registerResult.Succeeded)
-                {
-                    //var urlBuilder = new UriBuilder("https", default, 7018, "/Account/ConfirmEmail", $"{new { userid = registerResult.User.Id, token = registerResult.Token }}");
+               await accountService.CreateUserAsync(request);
 
-                    var callback = Url.Action(
-                        "ConfirmEmail",
-                        "Account",
-                        new { userid = registerResult.User.Id, token = registerResult.Token },
-                        protocol: HttpContext.Request.Scheme);
 
-                    await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email , callback);
-                    return Json("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
-                }
+                //var callback = Url.Action(
+                //    "ConfirmEmail",
+                //    "Account",
+                //    new { userid = registerResult.User.Id, token = registerResult.Token },
+                //    protocol: HttpContext.Request.Scheme);
+
+                //await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email, callback);
+                return Json("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
+               
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid request" }));
 
             
         }
@@ -66,7 +65,7 @@ namespace BlogWebAPI.Controllers
             var validationResult = await _validators._confirmEmailValidator.ValidateAsync(request);
             if (validationResult.IsValid)
             {
-                var confirmResult =await _accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
+                var confirmResult =await accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
                 if (confirmResult)
                 {
                     //
@@ -85,7 +84,7 @@ namespace BlogWebAPI.Controllers
             var result =await _validators._logInValidator.ValidateAsync(request);
             if (result.IsValid)
             {
-                var logInResult =await _accountService.LogInAsync(request.Email, request.Password );
+                var logInResult =await accountService.LogInAsync(request.Email, request.Password );
                 if(logInResult)
                     return Ok(new { isSuccess = true, message = "Success login" }) ;
             }

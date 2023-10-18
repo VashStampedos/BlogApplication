@@ -40,7 +40,7 @@ namespace BlogWebAPI.Services
                 return ApiResult<UserResponse>.Success(response);
               
             }
-            return ApiResult<UserResponse>.Failure(HttpStatusCode.NotFound, "User not found");
+            return ApiResult<UserResponse>.Failure(HttpStatusCode.NotFound, new List<string>() { "User not found" });
         }
 
     }

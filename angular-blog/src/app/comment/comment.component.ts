@@ -34,7 +34,7 @@ export class CommentComponent {
       this.blogService.getComments(id!).subscribe(
         {
           next:(x:any)=>{
-            this.comments=x
+            this.comments=x.data
            
   
           },

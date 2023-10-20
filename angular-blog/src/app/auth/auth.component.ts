@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserClaim, Response } from '../UserClaim';
 import { of, pipe } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ApiResult } from '../ApiResult';
 
 @Component({
   selector: 'app-auth',
@@ -42,7 +43,6 @@ export class AuthComponent implements OnInit {
     this.authService.logIn(email,password).subscribe(
       {
         next:(response:any)=>{
-          console.log(response);
           window.document.location.reload();
         },
         error:(err:any)=>{

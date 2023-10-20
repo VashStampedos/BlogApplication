@@ -4,42 +4,32 @@ using BlogWebAPI.Entities;
 using BlogWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BlogWebAPI.Services;
-using FluentValidation;
-using BlogWebAPI.DTO.Auth;
+
 using BlogWebAPI.DTO.Blog;
-using BlogWebAPI.Validators.RequestsValidators.BlogValidators;
 using BlogWebAPI.Results;
 using BlogWebAPI.Storages;
+using System.Net;
 
 namespace BlogWebAPI.Controllers
 {
     [Authorize]
     public class BlogController : Controller
     {
-        BlogApplicationContext _db;
-        UserManager<User> _userManager;
-        IMapper mapper;
-        IWebHostEnvironment _env;
-        BlogService _blogService;
-        ValidatorsStorage _validators;
+        UserManager<User> userManager;
+        BlogService blogService;
+        ValidatorsStorage validators;
        
-        public BlogController(BlogApplicationContext context, 
+        public BlogController( 
             UserManager<User> userManager,
-            IMapper _mapper, 
-            IWebHostEnvironment environment,
             BlogService blogService,
             ValidatorsStorage validators
             )
         {
-            _db = context;
-            _userManager = userManager;
-            mapper = _mapper;
-            _env = environment;
-            _blogService = blogService;
-            _validators = validators;
+            this.userManager = userManager;
+            this.blogService = blogService;
+            this.validators = validators;
            
         }
         
@@ -47,63 +37,60 @@ namespace BlogWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Blogs()
         {
-            var blogs =await _blogService.GetBlogsAsync();
-            return  Json(blogs);
+            var blogs =await blogService.GetBlogsAsync();
+            return  Ok(ApiResult<IEnumerable<BlogModel>>.Success(blogs));
         }
         [HttpGet]
         public async Task<IActionResult> GetUserBlogs(int id)
         {
             if (id > 0)
             {
-                var blogs = await _blogService.GetUserBlogsByUserIdAsync(id); 
-                return Json(blogs);
+                var blogs = await blogService.GetUserBlogsByUserIdAsync(id); 
+                return Ok(ApiResult<IEnumerable<BlogModel>>.Success(blogs));
                 
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
         [HttpGet]
         public async Task<IActionResult> GetCurrentUserBlogs()
         {
             if (User.Identity.IsAuthenticated)
             {
-                var blogs = await _blogService.GetCurrentUserBlogsAsync(User);
-                return Json(blogs);
+                var blogs = await blogService.GetCurrentUserBlogsAsync(User);
+                return Ok(ApiResult<IEnumerable<BlogModel>>.Success(blogs));
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Categories()
         {
-            var categories = await _blogService.GetCategoriesAsync();
-            return Json(categories);
+            var categories = await blogService.GetCategoriesAsync();
+            return Ok(ApiResult<IEnumerable<CategoryModel>>.Success(categories));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewBlog([FromBody] CreateBlogRequest request)
         {
-            var result =await _validators._createBlogValidator.ValidateAsync(request);
-            if (result.IsValid)
+            if (ModelState.IsValid)
             {
-                var createResult = await _blogService.CreateNewBlogAsync(request.Name, request.CategoryId, User);
+                var createResult = await blogService.CreateNewBlogAsync(request.Name, request.CategoryId, User);
                 
                     return Ok(ApiResult<int>.Success(createResult));
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
         [HttpDelete]
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            var user =await _userManager.GetUserAsync(User);
            
-            if (id > 0 && user !=null)
+            if (id > 0 )
             {
-                var deleteResult = await _blogService.DeleteBlogAsync(id, user.Id);
-                
+                var deleteResult = await blogService.DeleteBlogAsync(id, User);
                 return Ok(ApiResult<int>.Success(deleteResult));
                 
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
 
         [HttpGet]
@@ -112,19 +99,19 @@ namespace BlogWebAPI.Controllers
         {
             if (id > 0)
             {
-                var blogModel =await _blogService.GetBlogAsync(id);
-                return Json(blogModel);
+                var blogModel =await blogService.GetBlogModelAsync(id);
+                return Ok(ApiResult<BlogModel>.Success(blogModel));
 
                 
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Articles()
         {   
-            var articleModels = await _blogService.GetArticlesAsync();
-            return Json(articleModels);
+            var articleModels = await blogService.GetArticlesAsync();
+            return Ok(ApiResult<IEnumerable<ArticleModel>>.Success(articleModels));
         }
         [HttpGet]
         [AllowAnonymous]
@@ -132,38 +119,36 @@ namespace BlogWebAPI.Controllers
         {
             if(id > 0)
             {
-                var articleModel =await _blogService.GetArticleModelByIdAsync(id);
-                return Json(articleModel);
+                var articleModel =await blogService.GetArticleModelByIdAsync(id);
+                return Ok(ApiResult<ArticleModel>.Success(articleModel));
             }
-            return BadRequest("Article not found");
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
 
         
         [HttpPost]
         public async Task<IActionResult> AddNewArticle([FromForm] CreateArticleRequest request)
         {
-            var result =await _validators._createArticleValidator.ValidateAsync(request);
-            if (result.IsValid)
+            if (ModelState.IsValid)
             {
                
-                var createResult = await _blogService.CreateArticleAsync(request.Title, request.Description, request.Photo, request.BlogId, User);
+                var createResult = await blogService.CreateArticleAsync(request.Title, request.Description, request.Photo, request.BlogId, User);
                 
                 return Ok(ApiResult<int>.Success(createResult));
 
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
         [HttpDelete]
         public async Task<IActionResult> DeleteArticle(int id)
         { 
             if(id > 0)
             {
-                var user = await _userManager.GetUserAsync(User);
-                var deleteResult = await _blogService.DeleteArticleAsync(id, user.Id);
+                var deleteResult = await blogService.DeleteArticleAsync(id, User);
                 
-                    return Ok(ApiResult<int>.Success(deleteResult));
+                return Ok(ApiResult<int>.Success(deleteResult));
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
 
         
@@ -176,28 +161,26 @@ namespace BlogWebAPI.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var user =await _userManager.GetUserAsync(User);
-                    var likeResult = await _blogService.GetLikesAsync(id, user.Id);
-                    return Json(likeResult);
+                    
+                    var likeResult = await blogService.GetLikesAsync(id, User);
+                    return Ok(ApiResult<LikeResult>.Success(likeResult));
                 }
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
-        public record LikeRequest(int idArticle);
+        
         [HttpPost]
         public async Task<IActionResult> AddLike([FromBody] LikeRequest likeRequest)
         {
             if(likeRequest.idArticle > 0 )
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                    await _blogService.AddLikeAsync(likeRequest.idArticle, user.Id);
-                    return Ok();
-                }
+                
+                await blogService.AddLikeAsync(likeRequest.idArticle, User);
+                return Ok(ApiResult<string>.Success("Succees"));
+                
             }
 
-            return BadRequest("Can not like article");
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
 
         [HttpGet]
@@ -206,29 +189,25 @@ namespace BlogWebAPI.Controllers
         {
             if (id > 0)
             {
-                var comments = await _blogService.GetCommentsAsync(id);
-                return Json(comments);
+                var comments = await blogService.GetCommentsAsync(id);
+                return Ok(ApiResult<IEnumerable<CommentModel>>.Success(comments));
             }
-            return BadRequest("Wrong article id");
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request" }));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewComment([FromBody] CreateCommentRequest commentRequest)
         {
-            var result =await _validators._createCommentValidator.ValidateAsync(commentRequest);
-            if(result.IsValid)
+          
+            if(ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                        await _blogService.CreateCommentAsync(commentRequest.ArticleId, commentRequest.Description, user.Id);
-
-                        return Ok();
-               
-                }
+                
+                await blogService.CreateCommentAsync(commentRequest.ArticleId, commentRequest.Description, User);
+                return Ok(ApiResult<string>.Success("Succees")) ;
+                
             }
             
-            return BadRequest("Can not add comment");
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid Request"}));
         }
 
         //[HttpGet]

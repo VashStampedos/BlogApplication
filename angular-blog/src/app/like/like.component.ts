@@ -31,9 +31,9 @@ export class LikeComponent {
     if(id!=0){
       this.blogService.getLikes(id!).subscribe(
         {
-          next:(x:LikeResponse)=>{
-            this.likes= x.likesModel
-            this.isLiked = x.isLiked;
+          next:(x:any)=>{
+            this.likes= x.data.likesModel
+            this.isLiked = x.data.isLiked;
             console.log("is liked :" + this.isLiked)
             console.log("in subscribe of get likes")
   

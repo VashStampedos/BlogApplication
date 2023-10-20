@@ -4,6 +4,7 @@ using BlogWebAPI.Configures.Storages;
 using BlogWebAPI.Configuries.Validators;
 using BlogWebAPI.Entities;
 using BlogWebAPI.Middleware;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +33,6 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     
-    
 });
 builder.Services.ConfigureApplicationCookie(config =>
 {
@@ -51,9 +51,11 @@ builder.Services.AddCors(options => options.AddPolicy("BlogApi", policy =>
 builder.Services.AddEndpointsApiExplorer();
 
 
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.ConfigureValidatorServices();
 builder.Services.ConfigureControllersServices();
 builder.Services.ConfigureValidatorsStorage();
+
 
 
 

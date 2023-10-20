@@ -19,7 +19,7 @@ export class NewBlogComponent {
   }
  
   ngOnInit(){
-    this.blogService.getCategories().subscribe(x=> this.categories = x);
+    this.blogService.getCategories().subscribe(x=> this.categories = x.data);
     this.blogForm = this.formBuilder.group(
       {
         blogName:['',[Validators.required]],

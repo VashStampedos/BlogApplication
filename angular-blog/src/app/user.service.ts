@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { User } from './models/user';
 import { UserResponse } from './UserClaim';
+import { ApiResult } from './ApiResult';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,16 @@ export class UserService {
 
   }
 
-  getUserInfo(id:number):Observable<UserResponse>{
-    return this.http.get<UserResponse>(`https://localhost:7018/User/GetUser?id=${id}`);
+  getUserInfo(id:number):Observable<ApiResult<UserResponse>>{
+    return this.http.get<ApiResult<UserResponse>>(`https://localhost:7018/User/GetUser?id=${id}`);
   }
-  getCurrentUser():Observable<User>{
-    return this.http.get<User>(`https://localhost:7018/User/GetCurrentUser`);
+  getCurrentUser():Observable<ApiResult<User>>{
+    return this.http.get<ApiResult<User>>(`https://localhost:7018/User/GetCurrentUser`);
   }
-  subscribe(id:number):Observable<UserResponse>{
-    return this.http.post<UserResponse>(`https://localhost:7018/User/Subscribe`, {id});
+  subscribe(id:number):Observable<ApiResult<UserResponse>>{
+    return this.http.post<ApiResult<UserResponse>>(`https://localhost:7018/User/Subscribe`, {id:id});
   }
-  unSubscribe(id:number):Observable<UserResponse>{
-    return this.http.post<UserResponse>(`https://localhost:7018/User/UnSubscribe`, {id});
+  unSubscribe(id:number):Observable<ApiResult<UserResponse>>{
+    return this.http.post<ApiResult<UserResponse>>(`https://localhost:7018/User/UnSubscribe`, {id:id});
   }
 }

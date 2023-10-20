@@ -23,7 +23,7 @@ export class ArticleDetailsComponent {
     
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.blogService.getArticle(id).subscribe(x=>{
-        this.article=x
+        this.article=x.data
       } );
     }
     goBack(): void {

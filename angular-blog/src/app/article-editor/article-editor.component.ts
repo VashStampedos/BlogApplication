@@ -24,7 +24,7 @@ export class ArticleEditorComponent {
 
     ngOnInit(){
         this.blogService.getCurrentUserBlogs().subscribe(x=>{
-          this.blogs= x
+          this.blogs= x.data
         } )
 
      

@@ -33,8 +33,8 @@ export class YourArticlesComponent {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       console.log(`id from article comp ${id}`);
       this.blogService.getBlog(id).subscribe(x=>{
-        this.blog=x;
-        this.articles = x.articles;
+        this.blog=x.data;
+        this.articles = x.data.articles;
       } );
       
     }

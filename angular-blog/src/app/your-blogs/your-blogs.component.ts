@@ -22,8 +22,8 @@ export class YourBlogsComponent {
   }
   
   ngOnInit(){
-    this.blogService.getCurrentUserBlogs().subscribe(x=>{this.blogs=x; this.showBlog = this.blogs});
-    this.blogService.getCategories().subscribe(x=>{this.categories = x;})
+    this.blogService.getCurrentUserBlogs().subscribe(x=>{this.blogs=x.data; this.showBlog = this.blogs});
+    this.blogService.getCategories().subscribe(x=>{this.categories = x.data;})
   }
 
   deleteBlog(id:number){

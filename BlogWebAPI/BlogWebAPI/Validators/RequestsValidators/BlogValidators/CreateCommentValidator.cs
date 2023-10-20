@@ -8,7 +8,7 @@ namespace BlogWebAPI.Validators.RequestsValidators.BlogValidators
         public CreateCommentValidator()
         {
             RuleFor(x => x.ArticleId).NotEmpty();
-            RuleFor(x=> x.Description).NotEmpty();
+            RuleFor(x=> x.Description).NotEmpty().WithMessage("Description cant be empty");
         }
     }
 }

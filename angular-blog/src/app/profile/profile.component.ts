@@ -24,7 +24,7 @@ export class ProfileComponent {
   }
 
   getUser() {
-    this.userService.getCurrentUser().subscribe(x => this.currentUser = x);
+    this.userService.getCurrentUser().subscribe(x => this.currentUser = x.data);
   }
   switch(event:any){
     const id = event.target.id;

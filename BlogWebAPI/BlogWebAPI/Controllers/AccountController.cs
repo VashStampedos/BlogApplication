@@ -8,6 +8,7 @@ using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Net;
 
 namespace BlogWebAPI.Controllers
@@ -39,21 +40,12 @@ namespace BlogWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
-            var validationResult = await _validators._registerValidator.ValidateAsync(request);
-            if (validationResult.IsValid)
+            var valid = _validators._registerValidator.Validate(request);
+            if(ModelState.IsValid)
             {
-               await accountService.CreateUserAsync(request);
+                await accountService.CreateUserAsync(request);
+                return Ok(ApiResult<string>.Success("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме"));
 
-
-                //var callback = Url.Action(
-                //    "ConfirmEmail",
-                //    "Account",
-                //    new { userid = registerResult.User.Id, token = registerResult.Token },
-                //    protocol: HttpContext.Request.Scheme);
-
-                //await _accountService.SendConfirmMessageToUserEmailAsync(registerResult.User.Email, callback);
-                return Json("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
-               
             }
             return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid request" }));
 
@@ -62,18 +54,13 @@ namespace BlogWebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
         {
-            var validationResult = await _validators._confirmEmailValidator.ValidateAsync(request);
-            if (validationResult.IsValid)
+           
+            if (ModelState.IsValid)
             {
-                var confirmResult =await accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
-                if (confirmResult)
-                {
-                    //
-                    return RedirectToAction("Blogs", "Blog");
-
-                }
+                await accountService.ConfirmUserEmailAsync(request.UserId, request.Token);
+                return Redirect(request.ReturnUrl);
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid request" }));
         }
 
       
@@ -81,24 +68,24 @@ namespace BlogWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LogInRequest request)
         {
-            var result =await _validators._logInValidator.ValidateAsync(request);
-            if (result.IsValid)
+           
+            if (ModelState.IsValid)
             {
                 var logInResult =await accountService.LogInAsync(request.Email, request.Password );
                 if(logInResult)
-                    return Ok(new { isSuccess = true, message = "Success login" }) ;
+                    return Ok(ApiResult<object>.Success(new { isSuccess = true, message = "Success login" })) ;
             }
-            return Unauthorized();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid request" }));
         }
         public async Task<IActionResult> LogOut()
         {
             if (User.Identity.IsAuthenticated)
             {
                 await _signInManager.SignOutAsync();
-                return Ok();
+                return Ok(ApiResult<string>.Success("succeesed logout"));
                 
             }
-            return BadRequest();
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Unauthorized" }));
         }
         
 
@@ -112,11 +99,11 @@ namespace BlogWebAPI.Controllers
                 if (await _userManager.IsEmailConfirmedAsync(user!))
                 {
                     var userClaims = User.Claims.Select(x => new { type = x.Type, value = x.Value }).ToList();
-                    return Ok(userClaims);
+                    return Ok(ApiResult<object>.Success(userClaims)) ;
 
                 }
             }
-            return Unauthorized();
+            return Unauthorized(ApiResult<string>.Failure(HttpStatusCode.Unauthorized, new List<string>() { "Unauthorized" })) ;
         }
        
     }

@@ -7,40 +7,106 @@ using BlogWebAPI.Models;
 using System.Security.Claims;
 using BlogWebAPI.Results;
 using System.Net;
+using BlogWebAPI.Exceptions;
 
 namespace BlogWebAPI.Services
 {
-    public class UserService
+    public class UserService:ApplicationDbContextService
     {
-        BlogApplicationContext _db;
-        UserManager<User> _userManager;
-        IMapper _mapper;
+        IMapper mapper;
         public UserService(
             BlogApplicationContext context,
             UserManager<User> userManager,
             IMapper mapper
-            )
+            ):base(context,userManager)
         {
-            _db = context;
-            _userManager = userManager;
-            _mapper = mapper;
+            this.mapper = mapper;
         }
 
-        public async Task<ApiResult<UserResponse>> GetUserAsync(int id, ClaimsPrincipal currentUser)
+
+        
+
+
+        public async Task<UserResponse> GetUserAsync(int id, ClaimsPrincipal currentUser)
         {
             bool isSubscribe = false;
-            var user = await _db.Users.Include(x => x.Subscribes).ThenInclude(x => x.Subscriber).Include(x => x.Blogs).FirstOrDefaultAsync(x => x.Id == id);
-            if (user != null)
+            var user = await context.Users.AsNoTracking().Include(x => x.Subscribes).ThenInclude(x => x.Subscriber).Include(x => x.Blogs).FirstOrDefaultAsync(x => x.Id == id);
+            _ = user ?? throw new NotFoundException("User not found");
+
+            var mappedUser = mapper.Map<UserModel>(user);
+            var _currentUser = await GetCurrentUserAsync(currentUser);
+           
+            isSubscribe = await context.Subscribes.AsNoTracking().AnyAsync(x => x.UserId == user.Id && x.SubscriberId == _currentUser.Id);
+            var response = new UserResponse { UserModel = mappedUser, IsSubscribe = isSubscribe };
+            return response;
+        }
+        public async Task<UserModel> GetCurrentUserModelAsync(ClaimsPrincipal currentUser)
+        {
+            var user = await GetCurrentUserAsync(currentUser);
+            var mappedUser = mapper.Map<UserModel>(user);
+            return mappedUser;
+
+        }
+
+        public async Task<UserResponse> SubscribeAsync(int subscribeId, ClaimsPrincipal currentUser)
+        {
+            var user =await GetCurrentUserAsync(currentUser);
+
+            await CheckSubscribeAsync(subscribeId, user.Id);
+            var sub = InitializeSubscribe(user.Id, subscribeId);
+            await context.Subscribes.AddAsync(sub);
+            await SaveChangesAsync();
+
+            var subuser = await GetSubscriberAsync(subscribeId);
+
+            var mappedUser = mapper.Map<UserModel>(subuser);
+            return new UserResponse() { UserModel = mappedUser, IsSubscribe = true };
+        }
+
+        public async Task<UserResponse> UnSubscribeAsync(int subscribeId, ClaimsPrincipal currentUser)
+        {
+            var user = await GetCurrentUserAsync(currentUser);
+            var subscribe = await context.Subscribes.FirstOrDefaultAsync(x => x.UserId == subscribeId && x.SubscriberId == user.Id);
+            var d = "";
+            _ = subscribe ?? throw new ConflictException("Subscribe not found");
+            context.Subscribes.Remove(subscribe);
+            await SaveChangesAsync();
+            var subuser = await GetSubscriberAsync(subscribeId);
+
+            var mappedUser = mapper.Map<UserModel>(subuser);
+            return new UserResponse() { UserModel = mappedUser, IsSubscribe = false };
+        }
+
+        private async Task<User> GetSubscriberAsync(int subscribeId)
+        {
+            var subuser = await context.Users.AsNoTracking().Include(x => x.Subscribes).ThenInclude(x => x.Subscriber).FirstOrDefaultAsync(x => x.Id == subscribeId);
+            _ = subuser ?? throw new NotFoundException("Subscriber not found");
+            return subuser;
+        }
+
+        private async Task CheckSubscribeAsync(int subscribeId, int userId)
+        {
+            var subscribe = await context.Subscribes.AsNoTracking().AnyAsync(x => x.UserId == subscribeId && x.SubscriberId == userId);
+            if (subscribe)
             {
-                var mappedUser = _mapper.Map<UserModel>(user);
-                var _currentUser = await _userManager.GetUserAsync(currentUser);
-                var subsUser = await _db.Subscribes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.SubscriberId == _currentUser.Id);
-                isSubscribe = subsUser != null ? true : false;
-                var response = new UserResponse { UserModel = mappedUser, IsSubscribe = isSubscribe };
-                return ApiResult<UserResponse>.Success(response);
-              
+                throw new ConflictException("Subscribe is already exist");
             }
-            return ApiResult<UserResponse>.Failure(HttpStatusCode.NotFound, new List<string>() { "User not found" });
+        }
+
+        private async Task<User> GetCurrentUserAsync(ClaimsPrincipal currentUser)
+        {
+
+            var user = await userManager.GetUserAsync(currentUser);
+            _ = user ?? throw new NotFoundException("User not found");
+            return user;
+        }
+
+        private Subscribe InitializeSubscribe(int userId, int subscriberId)
+        {
+            var newSub = new Subscribe();
+            newSub.UserId = subscriberId;
+            newSub.SubscriberId = userId;
+            return newSub;
         }
 
     }

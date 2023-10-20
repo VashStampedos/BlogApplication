@@ -9,6 +9,7 @@ import { Like } from './models/like';
 import { LikeResponse } from './UserClaim';
 import { Category } from './models/category';
 import { User } from './models/user';
+import { ApiResult } from './ApiResult';
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +20,21 @@ export class BlogService {
     
   }
   
-  getCategories():Observable<Category[]>{
-    return this.http.get<Category[]>("https://localhost:7018/Blog/Categories");
+  getCategories():Observable<ApiResult<Category[]>>{
+    return this.http.get<ApiResult<Category[]>>("https://localhost:7018/Blog/Categories");
   }
-  getBlogs():Observable<Blog[]>{
-    return this.http.get<Blog[]>("https://localhost:7018/Blog/Blogs");
+  getBlogs():Observable<ApiResult<Blog[]>>{
+    return this.http.get<ApiResult<Blog[]>>("https://localhost:7018/Blog/Blogs");
   }
-  getCurrentUserBlogs():Observable<Blog[]>{
-    return this.http.get<Blog[]>("https://localhost:7018/Blog/GetCurrentUserBlogs");
+  getCurrentUserBlogs():Observable<ApiResult<Blog[]>>{
+    return this.http.get<ApiResult<Blog[]>>("https://localhost:7018/Blog/GetCurrentUserBlogs");
   }
-  getUserBlogs(id:number):Observable<Blog[]>{
-    return this.http.get<Blog[]>(`https://localhost:7018/Blog/GetUserBlogs?id=${id}`);
+  getUserBlogs(id:number):Observable<ApiResult<Blog[]>>{
+    return this.http.get<ApiResult<Blog[]>>(`https://localhost:7018/Blog/GetUserBlogs?id=${id}`);
   }
-  getBlog(id:number):Observable<Blog>{
+  getBlog(id:number):Observable<ApiResult<Blog>>{
     
-    const blog = this.http.get<Blog>(`https://localhost:7018/Blog/GetBlog?id=${id}`);
+    const blog = this.http.get<ApiResult<Blog>>(`https://localhost:7018/Blog/GetBlog?id=${id}`);
     return blog;
   }
   addNewBlog(name:string, idCategory:number){
@@ -42,27 +43,27 @@ export class BlogService {
   deleteBlog(id:number){
     return this.http.delete(`https://localhost:7018/Blog/DeleteBlog?id=${id}`)
   }
-  getComments(id:number):Observable<Comment[]>{
+  getComments(id:number):Observable<ApiResult<Comment[]>>{
     
-    return this.http.get<Comment[]>(`https://localhost:7018/Blog/GetComments?id=${id}`);
+    return this.http.get<ApiResult<Comment[]>>(`https://localhost:7018/Blog/GetComments?id=${id}`);
   }
   addComment(idArticle:number, description:string){
     return this.http.post
     ("https://localhost:7018/Blog/AddNewComment",{articleId:idArticle,description:description})
   }
-  getLikes(id:number):Observable<LikeResponse>{
+  getLikes(id:number):Observable<ApiResult<LikeResponse>>{
     console.log("id from getLikes: "+ id)
-    return this.http.get<LikeResponse>(`https://localhost:7018/Blog/GetLikes?id=${id}`);
+    return this.http.get<ApiResult<LikeResponse>>(`https://localhost:7018/Blog/GetLikes?id=${id}`);
   }
   addLike(idArticle:number){
     return this.http.post
     ("https://localhost:7018/Blog/AddLike",{idArticle:idArticle})
   }
-  getArticles():Observable<Article[]>{
-    return this.http.get<Article[]>("https://localhost:7018/Blog/Articles");
+  getArticles():Observable<ApiResult<Article[]>>{
+    return this.http.get<ApiResult<Article[]>>("https://localhost:7018/Blog/Articles");
   }
-  getArticle(id:number):Observable<Article>{
-    return this.http.get<Article>(`https://localhost:7018/Blog/GetArticle?id=${id}`);
+  getArticle(id:number):Observable<ApiResult<Article>>{
+    return this.http.get<ApiResult<Article>>(`https://localhost:7018/Blog/GetArticle?id=${id}`);
   }
   addArticle(title:string, description:string, photo:File, idblog:number){
     

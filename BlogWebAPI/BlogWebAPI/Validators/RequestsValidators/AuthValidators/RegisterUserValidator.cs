@@ -7,9 +7,9 @@ namespace BlogWebAPI.Validators.RequestsValidators.AuthValidators
     {
         public RegisterUserValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().MinimumLength(2);
+            RuleFor(x => x.UserName).NotEmpty().MinimumLength(2).WithMessage("Username length should be more then 2 symbols");
             RuleFor(x => x.Email).EmailAddress();
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(4);
+            RuleFor(x => x.Password).NotEmpty().MinimumLength(4).WithMessage("Password length should be more then 2 symbols");
 
         }
     }

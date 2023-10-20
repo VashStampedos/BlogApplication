@@ -19,11 +19,9 @@ namespace BlogWebAPI.Services
     {
         SignInManager<User> signInManager;
         EmailService emailService;
-        IMapper mapper;
 
         public AccountService(
             BlogApplicationContext context, 
-            IMapper mapper, 
             UserManager<User> userManager, 
             SignInManager<User> signInManager, 
             EmailService emailService):base(context, userManager)
@@ -31,15 +29,15 @@ namespace BlogWebAPI.Services
            
             this.signInManager = signInManager;
             this.emailService = emailService;    
-            this.mapper = mapper;
         }
 
 
         public async Task<User> GetCurrentUser(ClaimsPrincipal user)
         {
-            var cuurentUser = await userManager.GetUserAsync(user);
-            _ = cuurentUser ?? throw new NotFoundException("User not found");
-            return cuurentUser;
+            
+            var currentUser = await userManager.GetUserAsync(user);
+            _ = currentUser ?? throw new NotFoundException("User not found");
+            return currentUser;
         }
 
         public async Task CreateUserAsync(RegisterUserRequest requset)
@@ -47,6 +45,7 @@ namespace BlogWebAPI.Services
             string username = requset.UserName;
             string email = requset.Email;
             string password = requset.Password;
+            string returnUrl = requset.ReturnUrl;
 
             await CheckUserByEmailAsync(email);
 
@@ -57,38 +56,37 @@ namespace BlogWebAPI.Services
             if (createResult.Succeeded)
             {
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                var message = GenerateConfirmMessage(token, user.Id);
+                var message = GenerateConfirmMessage(token, user.Id, returnUrl);
                 await SendConfirmMessageToUserEmailAsync(email, message);
 
 
             }
         }
 
-        private string GenerateConfirmMessage(string token, int userId)
+
+        public async Task ConfirmUserEmailAsync(string userId, string token)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+            _ = user ?? throw new NotFoundException("User not found");
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+                throw new ConflictException("Can't confirm email");
+        }
+        private string GenerateConfirmMessage(string token, int userId, string returnUrl)
         {
             var codedToken = HttpUtility.UrlEncode(token);   
-            //var urlBuilder = new UriBuilder("https", "localhost", 7018, $"/Account/ConfirmEmail?userId={userId}&token={token}");
             var urlBuilder = new UriBuilder();
             urlBuilder.Scheme = "https";
             urlBuilder.Host = "localhost";
             urlBuilder.Port = 7018;
             urlBuilder.Path = $"/Account/ConfirmEmail";
-            urlBuilder.Query = $"userId={userId}&token={codedToken}";
-            //var url = $"https://localhost:7018/Account/ConfirmEmail?token={token}&userId={userId}";
+            urlBuilder.Query = $"userId={userId}&returnUrl={returnUrl}&token={codedToken}";
             return urlBuilder.ToString();
         }
 
         private async Task SendConfirmMessageToUserEmailAsync(string email, string callback)
         {
             await emailService.SendEmailAsync(email, "Подтверждение", $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callback}'> Подтвердить!!!!</a>");
-        }
-
-        public async Task<bool> ConfirmUserEmailAsync(string userId, string token)
-        {
-            var user = await userManager.FindByIdAsync(userId);
-
-            var result = await userManager.ConfirmEmailAsync(user, token);
-            return result.Succeeded;
         }
 
         public async Task<bool> LogInAsync(string email, string password)

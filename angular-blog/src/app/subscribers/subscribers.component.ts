@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from '../user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { User } from '../models/user';
 import { Subscribe } from '../models/subscribe';
 
@@ -18,18 +18,16 @@ export class SubscribersComponent {
   
 
 
-  constructor(private userService:UserService, private route:ActivatedRoute){
+  constructor(private userService:UserService, private route:ActivatedRoute, private router:Router){
     
   }
 
   ngOnInit(){
-    
   }
 
-  // updatePage(){
-  //   console.log("reload");
-  //   window.document.location.reload();
-  // }
+  redirectToUser(id:number){
+    this.router.navigateByUrl(`/user/${id}`, {skipLocationChange:false})
+  }
 
   searching(){
     console.log(this.subscribers)

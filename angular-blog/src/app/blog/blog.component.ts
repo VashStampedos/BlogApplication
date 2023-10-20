@@ -26,7 +26,7 @@ export class BlogComponent {
   ngOnInit(){
     
     //this.blogService.getBlogs().subscribe(x=> {this.blogs=x; this.showBlog= this.blogs});
-    this.blogService.getCategories().subscribe(x=>{this.categories = x;})
+    this.blogService.getCategories().subscribe(x=>{this.categories = x.data;})
     //this.showBlog = this.blogs
   }
   

@@ -27,7 +27,7 @@ namespace BlogWebAPI.Services
 
         public async Task<IEnumerable<BlogModel>> GetBlogsAsync()
         {
-            var blogs = await context.Blogs.Include(x => x.User).Include(x => x.Category).Include(x => x.Articles).ToListAsync();
+            var blogs = await context.Blogs.AsNoTracking().Include(x => x.User).Include(x => x.Category).Include(x => x.Articles).ToListAsync();
             var blogModels = mapper.Map<IEnumerable<BlogModel>>(blogs);
             return blogModels;
         }
@@ -71,9 +71,10 @@ namespace BlogWebAPI.Services
         }
 
        
-        public async Task<int> DeleteBlogAsync(int id, int userId)
+        public async Task<int> DeleteBlogAsync(int id, ClaimsPrincipal user)
         {
-            var delBlog = await GetUserBlogAsync(id,userId);
+            var currentUser = await GetCurrentUserAsync(user);
+            var delBlog = await GetUserBlogAsync(id, currentUser.Id);
             context.Blogs.Remove(delBlog);
             await SaveChangesAsync();
             return delBlog.Id;
@@ -127,22 +128,24 @@ namespace BlogWebAPI.Services
             return newArticle.Id;
         }
         
-        public async Task<int> DeleteArticleAsync(int id, int userId)
+        public async Task<int> DeleteArticleAsync(int id, ClaimsPrincipal currentUser)
         {
+            var user = await GetCurrentUserAsync(currentUser);
             var delArticle = await GetArticleByIdAsync(id);
-            CheckUserBlog(delArticle.Blog, userId); 
+            CheckUserBlog(delArticle.Blog, user.Id); 
             context.Articles.Remove(delArticle);
             await context.SaveChangesAsync();
             return delArticle.Id;
         }
 
-        public async Task<LikeResult> GetLikesAsync(int id, int userId)
+        public async Task<LikeResult> GetLikesAsync(int id, ClaimsPrincipal user)
         {
             bool isLiked = false;
+            var currentUser = await GetCurrentUserAsync(user);  
             var likes = await context.Likes.Include(x => x.User).Include(x => x.Article).Where(x => x.IdArticle == id).ToListAsync();
             var likesModel = mapper.Map<LikeModel[]>(likes);
 
-            var likeCheck = likesModel.FirstOrDefault(x => x.IdUser == userId);
+            var likeCheck = likesModel.FirstOrDefault(x => x.IdUser == currentUser.Id);
             if (likeCheck != null)
             {
                 isLiked = true;
@@ -150,13 +153,14 @@ namespace BlogWebAPI.Services
             return new LikeResult(likesModel, isLiked);
         }
 
-        public async Task AddLikeAsync(int id, int userId)
+        public async Task AddLikeAsync(int id, ClaimsPrincipal currentUser)
         {
-            var checkLike = await context.Likes.FirstOrDefaultAsync(x => x.IdUser == userId && x.IdArticle == id);
+            var user = await GetCurrentUserAsync(currentUser);
+            var checkLike = await context.Likes.FirstOrDefaultAsync(x => x.IdUser == user.Id && x.IdArticle == id);
             if (checkLike == null)
             {
                 Like like = new Like();
-                like.IdUser = userId;
+                like.IdUser = user.Id;
                 like.IdArticle = id;
 
                 await context.Likes.AddAsync(like);
@@ -178,9 +182,10 @@ namespace BlogWebAPI.Services
             var commentsModel = mapper.Map<CommentModel[]>(comments);
             return commentsModel;
         }
-        public async Task CreateCommentAsync(int id, string description, int userId)
+        public async Task CreateCommentAsync(int articleId, string description, ClaimsPrincipal user)
         {
-            var comment = InitializeComment(id, description, userId);
+            var currentUser = await GetCurrentUserAsync(user);
+            var comment = InitializeComment(articleId, description, currentUser.Id);
             await context.Comments.AddAsync(comment);
             await SaveChangesAsync();
         }

@@ -19,8 +19,8 @@ export class HomeComponent {
   
   ngOnInit(){
     
-    this.blogService.getBlogs().subscribe(x=> {this.blogs=x; console.log("asdasdsad")});
-    
+    this.blogService.getBlogs().subscribe(x=> {this.blogs=x.data; console.log("asdasdsad")});
+    //console.log(document.location.protocol + document.location.host + "")
   }
   
   

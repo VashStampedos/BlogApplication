@@ -8,8 +8,8 @@ namespace BlogWebAPI.Validators.RequestsValidators.BlogValidators
     {
         public CreateBlogValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.CategoryId).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Name cant be empty");
+            RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Blog needs category");
         }
     }
 }

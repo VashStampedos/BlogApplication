@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserClaim } from '../UserClaim';
 import { AuthService } from '../auth.service';
+import { ApiResult } from '../ApiResult';
 
 @Component({
   selector: 'app-register',
@@ -15,10 +16,10 @@ export class RegisterComponent {
   signedIn:boolean = false;
   claims:UserClaim[]=[];
   responseString?:string;
+  returnUrl?:string;
 
   constructor(private authService: AuthService,private formBuilder:FormBuilder, private router:Router ){
-    // this.authService.isSignedIn().subscribe(isSignedIn => {this.signedIn = isSignedIn})
-    // console.log(`${this.signedIn} signin result`)
+    
     
   }
   ngOnInit(){
@@ -26,7 +27,7 @@ export class RegisterComponent {
     this.loginForm = this.formBuilder.group(
       {
         username:['', [Validators.required]],
-        email:['', [Validators.required, Validators.email]],//разобратсья как вндеряется формбилдер и дописать методы!!!
+        email:['', [Validators.required, Validators.email]],
         password:['', Validators.required]
       }
     )
@@ -39,26 +40,23 @@ export class RegisterComponent {
     const username = this.loginForm.get('username')?.value;
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
+    const returnUrl = document.location.protocol + document.location.host + "";
     console.log(`form auth comp ${email} - ${password}`)
-    this.authService.register(username, email, password).subscribe(
+    this.authService.register(username, email, password, returnUrl).subscribe(
       {
         next:(response:any)=>{
-          console.log("in next block")
           console.log(response)
-          this.responseString = response;
+          this.responseString = response.data;
         },
         error:(err:any)=>{
           if(!err?.error?.isSuccess){
             this.authFailed = true
-            console.log("in error block of register-comp " + username, email, password)
-            console.log(err)
+            console.log(err.errors)
         }
         },
         complete:()=>{
           if(!this.authFailed)
           console.log("authfaild:"+ this.authFailed)
-            
-            //this.router.navigateByUrl("/blogs")
           }
 
         

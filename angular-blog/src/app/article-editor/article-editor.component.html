@@ -4,7 +4,7 @@
         <p>Choose Blog!!!</p>
         <ul *ngIf="blogs.length>0;else noblogs">
             <li (click)="onClickBlog(blog)" *ngFor="let blog of blogs" >
-                <p >{{blog.name}} {{blog?.category?.name}}</p>
+                <p >{{blog.name}} : {{blog?.category?.name}}</p>
             </li>
         </ul>
         
@@ -20,14 +20,14 @@
             <div class="row full-height justify-content-center">
                 <div class="col-12 text-center align-self-center py-5">
                     <div class="section pb-5 pt-5 pt-sm-2 text-center">
-                        <h1 class="mb-4 pb-3">Create your Blog</h1>
+                        <h1 class="mb-4 pb-3">Create your article</h1>
                         <div *ngIf="blog" class="card-3d-wrap mx-auto">
                             <div class="card-3d-wrapper">
                                 <div class="card-front">
                                     <div class="center-wrap">
                                         
                                             <form class="section text-center" [formGroup]="articleForm" (submit)="addNewArticle()">
-                                                <p class="form-wrap">Blog: {{blog.name}} </p>
+                                                <h2 class="form-wrap">Blog: {{blog.name}} </h2>
                                                 <div class="form-wrap">
                                                     <div class="form-group">
                                                         <label for="title">Title*</label>
@@ -38,8 +38,11 @@
                                                         <textarea class="form-style" name="description" formControlName="description">Write yor text here</textarea>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="photo">Photo*</label>
-                                                        <input type="file" class="form-style" (change)="onFileSelected($event)" class="col form-field"  name="photo" formControlName="photo" />
+                                                        <div>
+                                                            <label for="photo">Photo*</label>
+                                                            <input type="file" class="form-style" (change)="onFileSelected($event)" class="col form-field"  name="photo" formControlName="photo" />
+
+                                                        </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <button class="btn mt-4" [disabled]="!articleForm.valid" type="submit">Add new Article</button>

@@ -13,7 +13,6 @@ export class SubscribersComponent {
 
   @Input() subscribers?:Subscribe[] = [];
   @Input() showSubscribers?:Subscribe[] = [];
-  @Input() user?:User;
   userName:string = "";
   
 
@@ -22,8 +21,7 @@ export class SubscribersComponent {
     
   }
 
-  ngOnInit(){
-  }
+
 
   redirectToUser(id:number){
     this.router.navigateByUrl(`/user/${id}`, {skipLocationChange:false})
@@ -38,8 +36,7 @@ export class SubscribersComponent {
     }
     else{
       this.showSubscribers = this.subscribers?.filter( x=> x.subscriber?.userName!.toLowerCase().includes(this.userName.toLowerCase()));
-      console.log("name blog " + this.userName);
-      console.log("in else");
+      
     }
   }
 }

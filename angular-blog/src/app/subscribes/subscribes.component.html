@@ -1,0 +1,19 @@
+<div class="section">
+    <div class="blogs-header-wrap">
+      <div class="blogs-header">
+        <input class="searching" placeholder="Имя пользователя" [(ngModel)]="userName" (ngModelChange)="searching()" type="search">
+      </div>
+    </div>
+    <ul class="container" >
+      <li class="users-wrap" *ngFor="let sub of showSubscribes" >
+            <a routerLink="/user/{{sub.userId}}" class="users-body" >
+              <div class="user">
+                <img src="../../assets/images/user.png">
+                <p>{{sub?.user?.userName}} </p>
+                
+              </div>
+            </a>
+      </li>
+    </ul>
+    <!-- (click)="ShowArticleOfBlog(blog)" -->
+</div>

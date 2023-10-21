@@ -24,6 +24,7 @@
                 <a id="2" (click)="switch($event)" class="bn34">Add New Blog</a>
                 <a id="3" (click)="switch($event)" class="bn34">Add New Article</a>
                 <a id="4" (click)="switch($event)" class="bn34">Subscribers</a>
+                <a id="5" (click)="switch($event)" class="bn34">Subscribes</a>
             </div>
         </div>
     </div>
@@ -33,6 +34,15 @@
         </div>
         <div  *ngSwitchCase="2">
             <app-new-blog></app-new-blog>
+        </div>
+        <div *ngSwitchCase="3">
+            <app-article-editor></app-article-editor>
+        </div>
+        <div *ngSwitchCase="4">
+            <app-subscribers  [subscribers]="currentUser?.subscribes" [showSubscribers]="currentUser?.subscribes"></app-subscribers>
+        </div>
+        <div *ngSwitchCase="5">
+            <app-subscribes [subscribes]="subscribes" [showSubscribes]="subscribes" [user]="currentUser"></app-subscribes>
         </div>
        
         

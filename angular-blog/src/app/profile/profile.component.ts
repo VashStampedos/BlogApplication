@@ -3,6 +3,7 @@ import { BlogService } from '../blog.service';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
 import { Switcher } from '../user/user.component';
+import { Subscribe } from '../models/subscribe';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,7 @@ export class ProfileComponent {
   currentUser?:User;
   state:number=1;
   switcher?:Switcher;
+  subscribes?:Subscribe[];
 
   constructor(private userService:UserService, private blogService:BlogService) {
     
@@ -21,10 +23,18 @@ export class ProfileComponent {
   ngOnInit(){
     
     this.getUser();
+    
   }
 
   getUser() {
-    this.userService.getCurrentUser().subscribe(x => this.currentUser = x.data);
+    this.userService.getCurrentUser().subscribe(x => {
+      this.currentUser = x.data
+      this.userService.getSubscribes(this.currentUser?.id!).subscribe(x=>{
+        this.subscribes = x.data
+        console.log(x.data)
+      })
+    });
+    
   }
   switch(event:any){
     const id = event.target.id;

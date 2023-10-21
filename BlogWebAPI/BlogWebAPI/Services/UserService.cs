@@ -77,6 +77,14 @@ namespace BlogWebAPI.Services
             return new UserResponse() { UserModel = mappedUser, IsSubscribe = false };
         }
 
+        public async Task<IEnumerable<SubscribeModel>> GetSubscribesAsync(int userId)
+        {
+            var subscribes = await context.Subscribes.AsNoTracking().Include(x=> x.User).Where(x => x.SubscriberId == userId).ToListAsync();
+            var sunscribesModel = mapper.Map<SubscribeModel[]>(subscribes);
+            return sunscribesModel;
+
+        }
+
         private async Task<User> GetSubscriberAsync(int subscribeId)
         {
             var subuser = await context.Users.AsNoTracking().Include(x => x.Subscribes).ThenInclude(x => x.Subscriber).FirstOrDefaultAsync(x => x.Id == subscribeId);
@@ -96,7 +104,8 @@ namespace BlogWebAPI.Services
         private async Task<User> GetCurrentUserAsync(ClaimsPrincipal currentUser)
         {
 
-            var user = await userManager.GetUserAsync(currentUser);
+            var userIdentity = await userManager.GetUserAsync(currentUser);
+            var user = await context.Users.AsNoTracking().Include(x => x.Subscribes).ThenInclude(x => x.Subscriber).Include(x => x.Blogs).FirstOrDefaultAsync(x => x.Id == userIdentity.Id);
             _ = user ?? throw new NotFoundException("User not found");
             return user;
         }

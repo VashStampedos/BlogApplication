@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from './models/user';
 import { UserResponse } from './UserClaim';
 import { ApiResult } from './ApiResult';
+import { Subscribe } from './models/subscribe';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,9 @@ export class UserService {
   }
   getCurrentUser():Observable<ApiResult<User>>{
     return this.http.get<ApiResult<User>>(`https://localhost:7018/User/GetCurrentUser`);
+  }
+  getSubscribes(userId:number):Observable<ApiResult<Subscribe[]>>{
+    return this.http.get<ApiResult<Subscribe[]>>(`https://localhost:7018/User/GetUserSubscribes?id=${userId}`);
   }
   subscribe(id:number):Observable<ApiResult<UserResponse>>{
     return this.http.post<ApiResult<UserResponse>>(`https://localhost:7018/User/Subscribe`, {id:id});

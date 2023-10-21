@@ -46,6 +46,17 @@ namespace BlogWebAPI.Controllers
             }
             return Unauthorized(ApiResult<string>.Failure(HttpStatusCode.Unauthorized, new List<string>() { "Unauthorized" }));
         }
+
+        public async Task<IActionResult> GetUserSubscribes(int id)
+        {
+            if(id>0)
+            {
+                var subscribesModel = await userService.GetSubscribesAsync(id);
+                return Ok(ApiResult<IEnumerable<SubscribeModel>>.Success(subscribesModel));
+            }
+            return BadRequest(ApiResult<string>.Failure(HttpStatusCode.BadRequest, new List<string>() { "Invalid requset" }));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Subscribe([FromBody] SubscribeRequest request)
         {

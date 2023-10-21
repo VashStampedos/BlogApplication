@@ -7,6 +7,7 @@ import { User } from '../models/user';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Blog } from '../models/blog';
 import { first, map, Subscription } from 'rxjs';
+import { Subscribe } from '../models/subscribe';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +18,7 @@ export class UserComponent {
   user?:User;
   userBlogs?:Blog[];
   subscribers?:User[] = [];
-  subscribes?:User[]= [];
+  subscribes?:Subscribe[]= [];
   isSubscribe:boolean = false;
   state:number=1;
   id:number = 0;
@@ -29,13 +30,11 @@ export class UserComponent {
   }
 
   ngOnInit(){
-    const routeSubscription = this.route.params.subscribe((x:any) =>{
+    this.routeSubscription = this.route.params.subscribe((x:any) =>{
       
       this.id = x.id;
       this.getUser();
-
-      
-      
+     
     });
     
   }
@@ -51,7 +50,10 @@ export class UserComponent {
       {
         this.user = x.data.userModel; 
         this.isSubscribe = x.data.isSubscribe;
-       
+        this.userService.getSubscribes(this.user?.id!).subscribe(x=>{
+          this.subscribes = x.data
+          console.log(x.data)
+        })
       });
     this.blogService.getUserBlogs(this.id).subscribe(x=> {this.userBlogs = x.data});
   }

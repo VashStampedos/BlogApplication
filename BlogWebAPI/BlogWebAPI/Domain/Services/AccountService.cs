@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
+using BlogWebAPI.Domain.Exceptions;
 using BlogWebAPI.DTO.Auth;
 using BlogWebAPI.Entities;
-using BlogWebAPI.Exceptions;
 using BlogWebAPI.Results;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using MimeKit.Encodings;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Policy;
 using System.Web;
 
-namespace BlogWebAPI.Services
+namespace BlogWebAPI.Domain.Services
 {
     public class AccountService:ApplicationDbContextService
     {

@@ -1,4 +1,4 @@
-﻿namespace BlogWebAPI.Exceptions
+﻿namespace BlogWebAPI.Domain.Exceptions
 {
     public class ConflictException:Exception
     {

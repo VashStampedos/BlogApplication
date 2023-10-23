@@ -1,9 +1,9 @@
-﻿using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
-using BlogWebAPI.Validators.RequestsValidators.BlogValidators;
+﻿using BlogWebAPI.Domain.Validators.RequestsValidators.AuthValidators;
+using BlogWebAPI.Domain.Validators.RequestsValidators.BlogValidators;
 
 namespace BlogWebAPI.Storages
 {
-    
+
     public class ValidatorsStorage
     {
         public CreateCommentValidator _createCommentValidator { get; set; }

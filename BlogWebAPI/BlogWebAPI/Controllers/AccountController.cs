@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
+using BlogWebAPI.Domain.Services;
 using BlogWebAPI.DTO.Auth;
 using BlogWebAPI.Entities;
 using BlogWebAPI.Results;
-using BlogWebAPI.Services;
 using BlogWebAPI.Storages;
-using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,6 @@ namespace BlogWebAPI.Controllers
        
         UserManager<User> _userManager;
         SignInManager<User> _signInManager;
-        ValidatorsStorage _validators;
         AccountService accountService;
         public AccountController(
             UserManager<User> userManager, 
@@ -32,7 +30,6 @@ namespace BlogWebAPI.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             this.accountService = accountService;
-            _validators = validators;
 
         }
         
@@ -40,7 +37,7 @@ namespace BlogWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
-            var valid = _validators._registerValidator.Validate(request);
+           
             if(ModelState.IsValid)
             {
                 await accountService.CreateUserAsync(request);

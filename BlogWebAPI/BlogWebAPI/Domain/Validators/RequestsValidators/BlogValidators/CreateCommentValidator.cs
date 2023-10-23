@@ -1,7 +1,7 @@
 ﻿using BlogWebAPI.DTO.Blog;
 using FluentValidation;
 
-namespace BlogWebAPI.Validators.RequestsValidators.BlogValidators
+namespace BlogWebAPI.Domain.Validators.RequestsValidators.BlogValidators
 {
     public class CreateCommentValidator:AbstractValidator<CreateCommentRequest>
     {

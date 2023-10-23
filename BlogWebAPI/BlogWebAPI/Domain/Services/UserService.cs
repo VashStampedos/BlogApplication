@@ -5,11 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BlogWebAPI.Models;
 using System.Security.Claims;
-using BlogWebAPI.Results;
-using System.Net;
-using BlogWebAPI.Exceptions;
+using BlogWebAPI.Domain.Exceptions;
 
-namespace BlogWebAPI.Services
+namespace BlogWebAPI.Domain.Services
 {
     public class UserService:ApplicationDbContextService
     {

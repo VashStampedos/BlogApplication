@@ -3,7 +3,7 @@ using MimeKit;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Policy;
 
-namespace BlogWebAPI.Services
+namespace BlogWebAPI.Domain.Services
 {
     public class EmailService
     {

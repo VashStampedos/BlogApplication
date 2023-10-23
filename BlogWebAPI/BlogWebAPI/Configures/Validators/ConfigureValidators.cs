@@ -1,7 +1,4 @@
 ﻿
-using BlogWebAPI.Validators.ModelsValidators;
-using BlogWebAPI.Validators.RequestsValidators.AuthValidators;
-using BlogWebAPI.Validators.RequestsValidators.BlogValidators;
 using FluentValidation;
 using System.Reflection;
 

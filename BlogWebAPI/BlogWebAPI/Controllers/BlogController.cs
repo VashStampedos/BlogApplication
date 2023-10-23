@@ -5,12 +5,12 @@ using BlogWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using BlogWebAPI.Services;
 
 using BlogWebAPI.DTO.Blog;
 using BlogWebAPI.Results;
 using BlogWebAPI.Storages;
 using System.Net;
+using BlogWebAPI.Domain.Services;
 
 namespace BlogWebAPI.Controllers
 {

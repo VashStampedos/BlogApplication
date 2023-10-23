@@ -2,7 +2,7 @@
 using BlogWebAPI.Models;
 using FluentValidation;
 
-namespace BlogWebAPI.Validators.RequestsValidators.BlogValidators
+namespace BlogWebAPI.Domain.Validators.RequestsValidators.BlogValidators
 {
     public class CreateBlogValidator:AbstractValidator<CreateBlogRequest>
     {

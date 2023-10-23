@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using BlogWebAPI.Domain.Exceptions;
 using BlogWebAPI.Entities;
-using BlogWebAPI.Exceptions;
 using BlogWebAPI.Models;
 using BlogWebAPI.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace BlogWebAPI.Services
+namespace BlogWebAPI.Domain.Services
 {
     public class BlogService: ApplicationDbContextService
     {

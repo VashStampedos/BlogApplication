@@ -1,4 +1,4 @@
-﻿using BlogWebAPI.Exceptions;
+﻿using BlogWebAPI.Domain.Exceptions;
 using BlogWebAPI.Results;
 using System.Net;
 using System.Runtime.CompilerServices;

@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validators\RequestsValidators\UserValidators\" />
+    <Folder Include="Domain\Validators\RequestsValidators\UserValidators\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

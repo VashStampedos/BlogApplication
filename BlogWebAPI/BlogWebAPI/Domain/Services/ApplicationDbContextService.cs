@@ -1,8 +1,8 @@
-﻿using BlogWebAPI.Entities;
-using BlogWebAPI.Exceptions;
+﻿using BlogWebAPI.Domain.Exceptions;
+using BlogWebAPI.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace BlogWebAPI.Services
+namespace BlogWebAPI.Domain.Services
 {
     public class ApplicationDbContextService
     {

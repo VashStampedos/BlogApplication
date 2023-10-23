@@ -1,7 +1,7 @@
 ﻿using BlogWebAPI.Models;
 using FluentValidation;
 
-namespace BlogWebAPI.Validators.ModelsValidators
+namespace BlogWebAPI.Domain.Validators.ModelsValidators
 {
     public class UserValidator : AbstractValidator<UserModel>
     {

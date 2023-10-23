@@ -1,7 +1,7 @@
 ﻿using BlogWebAPI.DTO.Auth;
 using FluentValidation;
 
-namespace BlogWebAPI.Validators.RequestsValidators.AuthValidators
+namespace BlogWebAPI.Domain.Validators.RequestsValidators.AuthValidators
 {
     public class RegisterUserValidator:AbstractValidator<RegisterUserRequest>
     {

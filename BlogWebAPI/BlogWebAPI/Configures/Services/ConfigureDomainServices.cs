@@ -1,4 +1,4 @@
-﻿using BlogWebAPI.Services;
+﻿using BlogWebAPI.Domain.Services;
 
 namespace BlogWebAPI.Configures.Services
 {

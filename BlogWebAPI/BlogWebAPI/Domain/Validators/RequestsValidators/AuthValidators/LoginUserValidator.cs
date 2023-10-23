@@ -2,7 +2,7 @@
 using FluentValidation;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
-namespace BlogWebAPI.Validators.RequestsValidators.AuthValidators
+namespace BlogWebAPI.Domain.Validators.RequestsValidators.AuthValidators
 {
     public class LoginUserValidator: AbstractValidator<LogInRequest>
     {

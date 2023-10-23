@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using BlogWebAPI.Domain.Services;
 using BlogWebAPI.DTO.User;
 using BlogWebAPI.Entities;
 using BlogWebAPI.Models;
 using BlogWebAPI.Results;
-using BlogWebAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

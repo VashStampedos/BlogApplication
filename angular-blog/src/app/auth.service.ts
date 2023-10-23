@@ -14,7 +14,7 @@ export class AuthService {
 
   }
 
-  public logIn(email:string, password:string){
+  public logIn(email:string, password:string):Observable<ApiResult<Response>>{
     
     console.log(`form auth service ${email} - ${password}`)
     return this.http.post<ApiResult<Response>>('https://localhost:7018/Account/Login',{email:email, password:password}) // проверить потом можно ли без тип Response

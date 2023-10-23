@@ -17,6 +17,7 @@ export class AuthComponent implements OnInit {
   authFailed: boolean = false;
   signedIn:boolean = false;
   claims:UserClaim[]=[];
+  isNavigate:boolean=true;
 
   constructor(private authService: AuthService,private formBuilder:FormBuilder, private router:Router ){
     this.authService.isSignedIn().subscribe(isSignedIn => {this.signedIn = isSignedIn})
@@ -35,6 +36,7 @@ export class AuthComponent implements OnInit {
 
   public logIn(event:any){
     if(!this.loginForm.valid){
+
       return;
     }
     const email = this.loginForm.get('email')?.value;
@@ -42,19 +44,27 @@ export class AuthComponent implements OnInit {
     console.log(`form auth comp ${email} - ${password}`)
     this.authService.logIn(email,password).subscribe(
       {
-        next:(response:any)=>{
-          window.document.location.reload();
+        next:(response:ApiResult<Response>)=>{
+
+          if(response.data.isSuccess){
+            this.isNavigate=true;
+            console.log("response succes" + response.data.message);
+            window.document.location.reload();
+          }
+          //
         },
         error:(err:any)=>{
           if(!err?.error?.isSuccess){
+            this.isNavigate=false;
             this.authFailed = true
             console.log(err)
             console.log("in error block of auth-comp " + email, password)
-        }
-        }
+          }
+        },
+
+       
       }
-      
-    )
-    this.router.navigateByUrl("/home")
+      )
+      this.router.navigateByUrl("/home");
   }
 }
